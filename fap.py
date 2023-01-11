@@ -37,6 +37,20 @@ socios = {
     6 : ["Diana", 15, "diana123", 0 ,{'2022/10':['25 12:56:14', 30000]}]
 }
 
+#Esta es el menu para los socios que les permite seleccionar una opción del menú para realizar una acción.
+def menuSocios(cedula):
+    fap()
+    opcionClientes = int(input("1.Ahorrar \n2.Pagar cuota\n3.Salir \nSeleccione una opcion: "))
+    if (opcionClientes == 1):
+        ahorro(cedula)
+    elif (opcionClientes == 2):
+        cuotasPrestamo(socios, cedula)
+    elif (opcionClientes == 3):
+        print("\nEl programa ha finalizado\nAdios")
+    else:
+        print("Seleccione una opcion correcta")
+        menuSocios(cedula)
+
 #Este es el menu para terceros,  estos debieron haber sidos registrados por el admin cuando este les hizo el prestamo
 def menuTerceros(usuario):
     fap()
