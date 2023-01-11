@@ -37,6 +37,38 @@ socios = {
     6 : ["Diana", 15, "diana123", 0 ,{'2022/10':['25 12:56:14', 30000]}]
 }
 
+#En esta variable se alamacena el total de dinero ahorrado en el banco
+ahorrosTotales = 325000
+
+def prestamo():
+    fap()
+    global ahorrosTotales #Llamamos la variable que definimos globalmente para usarla dentro de la funcion
+    tipoCliente = int(input("Digite el tipo de cliente\n1.Socios\n2.Terceros\nseleccione una opcion: ")) #Se pregunta al usuario el tipo de cliente que desea realizar el préstamo
+    if (tipoCliente == 1): # Si el cliente es un socio
+        usuario = int(input("Digite la cedula del socio: "))  #Se le pregunta su cédula
+        if (socios[usuario][3] == 0): #Si el socio no tiene prestamos
+            disponible = totalAhorradoSocio(usuario) #Con esta información se calcula el total ahorrado por el socio para determinar cuanto dinero puede prestar
+            disponible *= 0.9
+            disponible = int(disponible)
+            while True:
+                print("Hay disponible para prestar: ", disponible)
+                cantidadPrestamo = int(input("Digite la cantidad a prestar: "))
+                cuotas = int(input("Digite la cantidad de cuotas: "))
+                if (cantidadPrestamo <= disponible): #Si el monto solicitado es menor al disponible.
+                    socios[usuario][3] = [cantidadPrestamo, cuotas, 0.01, str(year) + "/" + str(month)] #Entonces se registra en el diccionario socios en la posicion 3
+                    ahorrosTotales -= cantidadPrestamo #Se resta la cantidad del prestamo al dinero total del fondo.
+                    borrarPantalla()
+                    print("Usted ha hecho un prestamo por: $" + str(cantidadPrestamo))
+                    menuAdmin()
+                    break
+                else:
+                    print("No se puede prestar esta cantidad")
+                    prestamo()
+        else: #Si existe un prestamo
+            borrarPantalla()
+            print("Esta cuenta ya tiene un prestamo")
+            menuAdmin()
+
 #Menu del administrador
 def menuAdmin():
     fap()
