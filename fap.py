@@ -111,6 +111,7 @@ def cuotasPrestamo(diccionario, usuario):
             cuotas = diccionario[usuario][3][1] #Trae el numero de cuotas del prestamo
             prestamo = diccionario[usuario][3][0] #Trae la cantidad del prestamo
             interes = diccionario[usuario][3][2] #Trae el interes que tiene que ser aplicado a cada cuota
+<<<<<<< HEAD
             print("¿Desea pagar la cuota del mes?. La cuota de este mes es : $", str((prestamo / cuotas) + ((prestamo / cuotas) * interes))) #Se muestra el monto de la cuota y se le pregunta al usuario si desea pagarla.
             cuotaMes = int(input("1.Si\n2.Salir\nSeleccione una opcion: "))
             if (cuotaMes == 1): #Si la respuesta es afirmativa
@@ -124,6 +125,8 @@ def cuotasPrestamo(diccionario, usuario):
                 print("Digite una opcion correcta")
                 cuotasPrestamo(diccionario, usuario)
 
+=======
+>>>>>>> 9d68ff92b3cf91ee9d7c274ee1f6c52984cdfb0d
 
 #Esta funcion nos permite traer la cantidad total que un usuario ha ahorrado
 def totalAhorradoSocio(cedula):
