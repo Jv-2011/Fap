@@ -5,6 +5,9 @@ import calendar
 #esta libreria contiene funciones para saber la fecha y hora actual "datetime.now()"
 from datetime import datetime
 
+#El modulo schedule sirve para programar trabajos cada cierto tiempo
+import schedule
+
 #Esta libreria permite utilizar alguna funciones del sistema operativo
 import os
 
@@ -121,6 +124,7 @@ def totalAhorradoSocio(cedula):
                         cantidadAhorroTotal += int(i[j][k]) #se suman los valores a la variable cantidadAhorroTotal
     return cantidadAhorroTotal
 
+#Esta funcion permite al administrador hacer un prestamo a un cliente, ya sea un socio o un tercero
 def prestamo():
     fap()
     global ahorrosTotales #Llamamos la variable que definimos globalmente para usarla dentro de la funcion
@@ -196,7 +200,7 @@ def loginAdmin():
         borrarPantalla()
         print("Su usuario o su contraseña son incorrectas, digite nuevamente")
         loginAdmin()
-        
+
 '''Esta funcion verifica con la cedula si el cliente tiene un diccionario con ahorros del mes en curso,de ser asi se ejecuta el menu de socios,en caso contrario de que no tenga un diccionario (ahorro ese mes) se le pedira obligatoriamente un ahorro por lo cual se mandara a la funcion "ahorro()"'''
 def ahorroProgramado(cedula):
     global year,month #Llamamos la variables que definimos globalmente para usarlas dentro de la funcion
