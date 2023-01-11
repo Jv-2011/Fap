@@ -37,6 +37,21 @@ socios = {
     6 : ["Diana", 15, "diana123", 0 ,{'2022/10':['25 12:56:14', 30000]}]
 }
 
+#Menu del administrador
+def menuAdmin():
+    fap()
+    opcion = int(input("1.Hacer prestamo\n2.Salir\nseleccione una opcion: "))
+    if (opcion == 1):
+        borrarPantalla()
+        prestamo()
+    elif (opcion == 2):
+        borrarPantalla()
+        menuPrincipal()
+    else:
+        borrarPantalla()
+        print("Digite una opcion correcta")
+        menuAdmin()
+
 #Este es el login para los admin
 def loginAdmin():
     fap()
@@ -51,7 +66,7 @@ def loginAdmin():
         borrarPantalla()
         print("Su usuario o su contraseña son incorrectas, digite nuevamente")
         loginAdmin()
-        
+
 #Esta función permite al usuario ahorrar una cantidad determinada de dinero.
 def ahorro(cedula):
     global year,month,day, ahorrosTotales #Llamamos la variables que definimos globalmente para usarlas dentro de la funcion
