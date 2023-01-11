@@ -66,6 +66,20 @@ def loginAdmin():
         borrarPantalla()
         print("Su usuario o su contraseña son incorrectas, digite nuevamente")
         loginAdmin()
+        
+'''Esta funcion verifica con la cedula si el cliente tiene un diccionario con ahorros del mes en curso,de ser asi se ejecuta el menu de socios,en caso contrario de que no tenga un diccionario (ahorro ese mes) se le pedira obligatoriamente un ahorro por lo cual se mandara a la funcion "ahorro()"'''
+def ahorroProgramado(cedula):
+    global year,month #Llamamos la variables que definimos globalmente para usarlas dentro de la funcion
+    for i in socios[cedula]: #Recorre una lista de socios a partir de su cédula
+        if isinstance(i,dict): #Para cada elemento de la lista, se verifica si es un diccionario (Si el usuario ya ha realizado algún ahorro en el mes actual)
+            x = str(i.keys())
+            x = x[11:-2].replace("'", "") #Si lo es, se extrae el año y mes del diccionario y se compara con el año y mes pasados como parámetros
+            if (x == (str(year) + "/" + str(month))): #Si coinciden(Si ya tiene un ahorro ese mes), se ejecuta la función menuSocios()
+                menuSocios(cedula)
+                break
+            else: #De lo contrario(Si ese mes no tiene un ahorro), pide un ahorro (con la función ahorro() con la misma cédula como parámetro.)
+                ahorro(cedula)
+                break
 
 #Esta función permite al usuario ahorrar una cantidad determinada de dinero.
 def ahorro(cedula):
