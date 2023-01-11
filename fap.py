@@ -1,9 +1,11 @@
-#con esta libreria contiene una funcion que permite saber la cantidad de dias que tiene
-#un mes dependiendo del año "monthrange(year,month)"
+#Con esta libreria contiene una funcion que permite saber la cantidad de dias que tiene un mes dependiendo del año "monthrange(year,month)"
 import calendar
 
 #esta libreria contiene funciones para saber la fecha y hora actual "datetime.now()"
 from datetime import datetime
+
+#El modulo schedule sirve para programar trabajos cada cierto tiempo
+import schedule
 
 #Esta libreria permite utilizar alguna funciones del sistema operativo
 import os
@@ -81,8 +83,7 @@ def cambioDay():
     else:
         day += 1
 
-#Esta linea de codigo ejecuta cambioDay() cada dia por medio de la libreria schedule
-#para que actualice el dia en la fecha.
+#Esta linea de codigo ejecuta cambioDay() cada dia por medio de la libreria schedule para que actualice el dia en la fecha.
 schedule.every().day.do(cambioDay)
 
 #Esta función se encarga de obtener la hora actual y devolverla en un formato específico.
@@ -95,6 +96,35 @@ def horaActual():
         hora = str(day)+" "+str(hora.hour)+":"+str(hora.minute)+":"+str(hora.second) #Se guarda la informacion de del dia hora:minute:segundo en la variable hora
     return(hora)
 
+#Esta función se encarga de calcular y mostrar la cuota del préstamo que un usuario debe pagar en un mes determinado
+def cuotasPrestamo(diccionario, usuario):
+    fap()
+    fecha = str(year) + "/" + str(month) #Traemos el año y el mes actual y los almacenamos en la variable fecha
+    if (diccionario[usuario][3] == 0): #Primero, se verifica si el usuario tiene un préstamo asignado.
+        borrarPantalla()
+        print("\n*No tienes ningun prestamos asignado*\n")
+        menuPrincipal()
+    else: #Si tiene un prestamo asignado
+        if (fecha in diccionario[usuario][3]): #Verifica si ya hay un pago
+            print("Ya pagaste la cuota de este mes")
+        else: #Si no tiene ningun pago
+            cuotas = diccionario[usuario][3][1] #Trae el numero de cuotas del prestamo
+            prestamo = diccionario[usuario][3][0] #Trae la cantidad del prestamo
+            interes = diccionario[usuario][3][2] #Trae el interes que tiene que ser aplicado a cada cuota
+            print("¿Desea pagar la cuota del mes?. La cuota de este mes es : $", str((prestamo / cuotas) + ((prestamo / cuotas) * interes))) #Se muestra el monto de la cuota y se le pregunta al usuario si desea pagarla.
+            cuotaMes = int(input("1.Si\n2.Salir\nSeleccione una opcion: "))
+            if (cuotaMes == 1): #Si la respuesta es afirmativa
+                diccionario[usuario][3].append(fecha) #Se agrega la fecha de pago al diccionario como un elemento más
+                ahorrosTotales += (prestamo / cuotas) + ((prestamo / cuotas) * interes) #Se actualizan los ahorros totales del fondo sumando el monto de la cuota
+                prestamo -= (prestamo/cuotas) #El préstamo disminuye con el valor de la cuota
+                cuotas -= 1 #Se resta una cuota pendiente
+            elif (cuotaMes == 2): #Sino nos dijirimos al menu de socios
+                menuSocios(cedula)
+            else:
+                print("Digite una opcion correcta")
+                cuotasPrestamo(diccionario, usuario)
+
+
 #Esta funcion nos permite traer la cantidad total que un usuario ha ahorrado
 def totalAhorradoSocio(cedula):
     cantidadAhorroTotal = 0
@@ -105,6 +135,7 @@ def totalAhorradoSocio(cedula):
                         cantidadAhorroTotal += int(i[j][k]) #se suman los valores a la variable cantidadAhorroTotal
     return cantidadAhorroTotal
 
+#Esta funcion permite al administrador hacer un prestamo a un cliente, ya sea un socio o un tercero
 def prestamo():
     fap()
     global ahorrosTotales #Llamamos la variable que definimos globalmente para usarla dentro de la funcion
@@ -180,7 +211,7 @@ def loginAdmin():
         borrarPantalla()
         print("Su usuario o su contraseña son incorrectas, digite nuevamente")
         loginAdmin()
-        
+
 '''Esta funcion verifica con la cedula si el cliente tiene un diccionario con ahorros del mes en curso,de ser asi se ejecuta el menu de socios,en caso contrario de que no tenga un diccionario (ahorro ese mes) se le pedira obligatoriamente un ahorro por lo cual se mandara a la funcion "ahorro()"'''
 def ahorroProgramado(cedula):
     global year,month #Llamamos la variables que definimos globalmente para usarlas dentro de la funcion
