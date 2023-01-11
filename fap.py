@@ -95,6 +95,22 @@ def horaActual():
         hora = str(day)+" "+str(hora.hour)+":"+str(hora.minute)+":"+str(hora.second) #Se guarda la informacion de del dia hora:minute:segundo en la variable hora
     return(hora)
 
+#Esta función se encarga de calcular y mostrar la cuota del préstamo que un usuario debe pagar en un mes determinado
+def cuotasPrestamo(diccionario, usuario):
+    fap()
+    fecha = str(year) + "/" + str(month) #Traemos el año y el mes actual y los almacenamos en la variable fecha
+    if (diccionario[usuario][3] == 0): #Primero, se verifica si el usuario tiene un préstamo asignado.
+        borrarPantalla()
+        print("\n*No tienes ningun prestamos asignado*\n")
+        menuPrincipal()
+    else: #Si tiene un prestamo asignado
+        if (fecha in diccionario[usuario][3]): #Verifica si ya hay un pago
+            print("Ya pagaste la cuota de este mes")
+        else: #Si no tiene ningun pago
+            cuotas = diccionario[usuario][3][1] #Trae el numero de cuotas del prestamo
+            prestamo = diccionario[usuario][3][0] #Trae la cantidad del prestamo
+            interes = diccionario[usuario][3][2] #Trae el interes que tiene que ser aplicado a cada cuota
+
 #Esta funcion nos permite traer la cantidad total que un usuario ha ahorrado
 def totalAhorradoSocio(cedula):
     cantidadAhorroTotal = 0
