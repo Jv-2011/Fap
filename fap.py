@@ -68,6 +68,23 @@ def prestamo():
             borrarPantalla()
             print("Esta cuenta ya tiene un prestamo")
             menuAdmin()
+    elif (tipoCliente == 2): #Si el cliente es un tercero
+        cedula = int(input("Digite la cedula del usuario: "))
+        nombre = str(input("Digite el nombre del usuario: "))
+        edad = int(input("Digite la edad: "))
+        password = str(input("Digite la contraseña: ")) #Se le piden unos datos para registrarlo en el diccionario de terceros
+        print("Hay disponible para prestar: $", str(ahorrosTotales))
+        while True:
+            cantidadPrestamo = int(input("Digite la cantidad a prestar: "))
+            cuotas = int(input("Digite la cantidad de cuotas: "))
+            if (cantidadPrestamo <= ahorrosTotales): #Si la cantidad pedida para el prestamo es menor o igual al total que tiene el fondo
+                terceros[cedula] = [nombre, edad, password, [cantidadPrestamo, cuotas, 0.02, str(year) + "/" + str(month)]] #Añade este prestamos a la posicion 3 del usario del diccionario tercero
+                print("Usted ha hecho un prestamo por: $" + str(cantidadPrestamo))
+                menuAdmin()
+                break
+            else: #Sino le dira al admin que no puede prestar ese dinero y le pedira de nuevo el valor del prestamo hasta que este sea valido
+                borrarPantalla()
+                print("No se puede prestar esa  cantidad de dinero")    
 
 #Menu del administrador
 def menuAdmin():
