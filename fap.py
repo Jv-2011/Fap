@@ -40,6 +40,16 @@ socios = {
 #En esta variable se alamacena el total de dinero ahorrado en el banco
 ahorrosTotales = 325000
 
+#Esta funcion nos permite traer la cantidad total que un usuario ha ahorrado
+def totalAhorradoSocio(cedula):
+    cantidadAhorroTotal = 0
+    for i in socios[cedula]: #Este código recorre una lista de socios
+        if (isinstance(i,dict)): #Se comprueba si el elemento actual es un diccionario
+            for j in i: #Si es así, se itera sobre los elementos del diccionario (j)
+                    for k in range(1, len(i[j]) ,2): #Se recorren los elementos del mismo desde la posición 1 hasta la última posición con saltos de 2 en 2 (k)
+                        cantidadAhorroTotal += int(i[j][k]) #se suman los valores a la variable cantidadAhorroTotal
+    return cantidadAhorroTotal
+
 def prestamo():
     fap()
     global ahorrosTotales #Llamamos la variable que definimos globalmente para usarla dentro de la funcion
@@ -84,7 +94,7 @@ def prestamo():
                 break
             else: #Sino le dira al admin que no puede prestar ese dinero y le pedira de nuevo el valor del prestamo hasta que este sea valido
                 borrarPantalla()
-                print("No se puede prestar esa  cantidad de dinero")    
+                print("No se puede prestar esa  cantidad de dinero")
 
 #Menu del administrador
 def menuAdmin():
