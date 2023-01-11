@@ -1,4 +1,4 @@
-#esta libreria permite utilizar alguna funciones del sistema operativo
+#Esta libreria permite utilizar alguna funciones del sistema operativo
 import os
 
 #Funcion que identifica el sistema operativo y limpia la consola cada vez que se ejecuta
@@ -17,8 +17,8 @@ def fap():
     print("    ██║░░░░░██║░░██║██║░░░░░")
     print("    ╚═╝░░░░░╚═╝░░╚═╝╚═╝░░░░░\n")
     print("  Fondo de Ahorros y Prestamos\n")
-        
-        
+
+
 '''Este diccionario cumple la funcion de base de datos, donde vamos a almacenar cada cliente y sus datos correspondientes en un diccionario en el siguiente formato llave = cedula  valor = arreglo con datos [cedula]: [Nombre, edad, contraseña,prestamos, ahorro1,ahorro2,ahorro3...].
 
 Los ahorros se guardan apartir de la cuarta posicion en un diccionario en donde la llave es
@@ -36,3 +36,21 @@ socios = {
     5 : ["Jaime", 15, "jaime123", 0 ,{'2022/10':['25 12:56:14', 25000]}],
     6 : ["Diana", 15, "diana123", 0 ,{'2022/10':['25 12:56:14', 30000]}]
 }
+
+#Funcion que ejecuta el menu principal de la aplicacion de acuerdo al rol que se quiera ingresar
+def menuPrincipal():
+    fap()
+    opcion = int(input("1.Cliente\n2.Administrador\n3.Salir\nseleccione una opcion: "))
+    borrarPantalla() #Llamamos la funcion para borrar pantalla de consola cada vez que pasemos de  pagina.
+    if (opcion == 1):
+        menuClientes()
+    elif (opcion == 2):
+        loginAdmin()
+    elif (opcion == 3):
+        print("\nEl programa ha finalizado\nAdios  ")
+    else:
+        print("Digite una opcion correcta")
+        menuPrincipal()
+
+borrarPantalla()
+menuPrincipal()
