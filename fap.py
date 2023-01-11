@@ -37,7 +37,19 @@ socios = {
     6 : ["Diana", 15, "diana123", 0 ,{'2022/10':['25 12:56:14', 30000]}]
 }
 
-'''Esta funcion permite al usuario hacer login en la aplicacion y asi poder acceder a las diferentes opciones de su cuenta'''
+#Este es el menu para terceros,  estos debieron haber sidos registrados por el admin cuando este les hizo el prestamo
+def menuTerceros(usuario):
+    fap()
+    opcionTerceros = int(input("1.Pagar cuota\n2.Salir\nSeleccione una opcion: "))
+    if (opcionTerceros == 1):
+        cuotasPrestamo(terceros, usuario)
+    elif (opcionTerceros == 2):
+        menuPrincipal()
+    else:
+        print("Digite una opcion correcta")
+        menuTerceros(usuario)
+
+#Esta funcion permite al usuario hacer login en la aplicacion y asi poder acceder a las diferentes opciones de su cuenta
 def login():
     fap()
     usuario = int(input("Digite su usuario (Es su numero de cedula): "))
