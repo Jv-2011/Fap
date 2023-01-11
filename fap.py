@@ -37,6 +37,20 @@ socios = {
     6 : ["Diana", 15, "diana123", 0 ,{'2022/10':['25 12:56:14', 30000]}]
 }
 
+'''Esta funcion permite al usuario hacer login en la aplicacion y asi poder acceder a las diferentes opciones de su cuenta'''
+def login():
+    fap()
+    usuario = int(input("Digite su usuario (Es su numero de cedula): "))
+    passwordLogin = str(input("Digite su contraseña: "))
+    if (passwordLogin == socios[usuario][2]):#Este código comprueba si la contraseña ingresada por el usuario es igual a la contraseña almacenada en un diccionario llamado "socios" para el usuario específico. Si las contraseñas coinciden, se ejecuta el código dentro del bloque if.
+        print("Su ingreso ha sido autorizado, bienvenido")
+        borrarPantalla()
+        ahorroProgramado(usuario)
+    else:
+        borrarPantalla()
+        print("Su usuario o su contraseña son incorrectas, digite nuevamente.")
+        login()
+
 #Esta función realiza el proceso de inicio de sesión para un tercero. Solicita al usuario que ingrese su número de cédula como usuario y su contraseña. Luego, comprueba si la contraseña ingresada por el usuario coincide con la contraseña almacenada en un diccionario llamado "terceros" para el usuario específico. Si las contraseñas coinciden, se imprime un mensaje de bienvenida y se ejecuta la función menuTerceros() pasando el número de cédula del usuario como parámetro. Si las contraseñas no coinciden, se imprime un mensaje solicitando al usuario que vuelva a ingresar sus credenciales. El ciclo while permite que esta comprobación se repita hasta que el usuario ingrese correctamente sus credenciales.
 def loginTerceros():
     fap()
