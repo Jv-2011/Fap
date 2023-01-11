@@ -37,6 +37,21 @@ socios = {
     6 : ["Diana", 15, "diana123", 0 ,{'2022/10':['25 12:56:14', 30000]}]
 }
 
+#Este es el login para los admin
+def loginAdmin():
+    fap()
+    usuarioAdmin = "admin" #Definimos una variable para almacenar el usuario del Admin
+    passwordAdmin = "root" #Definimos una variable para almacenar la contraseña del Admin
+    usuario = str(input("Digite su usuario: "))
+    password = str(input("Digite la contraseña: "))
+    if (usuario == usuarioAdmin and password == passwordAdmin):
+        borrarPantalla()
+        menuAdmin()
+    else:
+        borrarPantalla()
+        print("Su usuario o su contraseña son incorrectas, digite nuevamente")
+        loginAdmin()
+
 #Esta es el menu para los socios que les permite seleccionar una opción del menú para realizar una acción.
 def menuSocios(cedula):
     fap()
