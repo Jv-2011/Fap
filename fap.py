@@ -51,6 +51,29 @@ def loginAdmin():
         borrarPantalla()
         print("Su usuario o su contraseña son incorrectas, digite nuevamente")
         loginAdmin()
+        
+#Esta función permite al usuario ahorrar una cantidad determinada de dinero.
+def ahorro(cedula):
+    global year,month,day, ahorrosTotales #Llamamos la variables que definimos globalmente para usarlas dentro de la funcion
+    cantidadAhorrar = int(input("Digite una cantidad para ahorrar: "))
+    while cantidadAhorrar < 25000: #Para ello, se verifica que la cantidad ingresada sea mayor o igual a 25000.
+        print("ingrese un monto igual o superior a 25000")
+        cantidadAhorrar = int(input("Digite una cantidad para ahorrar: ")) #Si el usuario ingresa un monto menor, se le solicitará que vuelva a ingresar un monto válido.
+    for i in socios[cedula]: #Recorre una lista de socios a partir de su cédula
+        if isinstance(i,dict): #Para cada elemento de la lista, se verifica si es un diccionario (Si el usuario ya ha realizado algún ahorro en el mes actual)
+            x = str(i.keys())
+            x = x[11:-2].replace("'", "") #Si lo es, se extrae el año y mes del diccionario y se compara con el año y mes pasados
+            if (x == (str(year) + "/" + str(month))): #Si es así, se agrega la hora actual y la cantidad ahorrada al diccionario correspondiente.
+                i[x].append(horaActual())
+                i[x].append(cantidadAhorrar)
+                ahorrosTotales += cantidadAhorrar
+            else: #Si no es así, se creará un nuevo diccionario con la fecha actual, hora actual y la cantidad ahorrada.
+                socios[cedula].append({str(year)+"/"+str(month):[horaActual(),cantidadAhorrar]})
+                ahorroTotales += cantidadAhorrar
+                break
+    borrarPantalla()
+    print("Usted ha ahorrado existosamente: $" + str(cantidadAhorrar))
+    menuSocios(cedula)
 
 #Esta es el menu para los socios que les permite seleccionar una opción del menú para realizar una acción.
 def menuSocios(cedula):
