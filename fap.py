@@ -37,6 +37,43 @@ socios = {
     6 : ["Diana", 15, "diana123", 0 ,{'2022/10':['25 12:56:14', 30000]}]
 }
 
+'''Esta función muestra un menú con 3 opciones para los clientes. La primera opción es "Registrarme", que al seleccionarla, se le pedirán al usuario los datos de su cédula, nombre, edad y contraseña. Estos datos serán guardados en un diccionario llamado "socios" en el orden [nombre, edad, contraseña, ahorro]. Además se llama a la función "ahorroInicial()" para pedir y almacenar un ahorro inicial igual o mayor a 25000.
+
+La segunda opción es "Iniciar Sesión", que al seleccionarla mostrará un menú con 2 opciones: Socio o Tercero. Si elige Socio se llamará a la función "login()" y si elige Tercero se llamará a la función "loginTerceros()".
+
+La tercera opción es "Salir", que al seleccionarla regresará al menú principal.'''
+def menuClientes():
+    fap()
+    opcionClientes = int(input("1.Registrarme \n2.Iniciar Sesion \n3.Salir \nSeleccione una opcion: "))
+    borrarPantalla() #Llamamos la funcion para borrar pantalla de consola cada vez que pasemos de  pagina.
+    if (opcionClientes == 1):
+        fap()
+        cedula = int(input("Digite su cedula: "))
+        nombre = str(input("Digite su nombre: "))
+        edad = int(input("Digite su edad: "))
+        password = str(input("Digite su contraseña: "))
+        ahorro = ahorroInicial() #En esta variable ejecutamos la funcion ahorroInicial para pedir y almacenar en esta misma un ahorro inicial que sea igual o mayor a 25000 en el formato de diccionario definido en la funcion para posteriormente almacenarlo en la posicion 4 del diccionario socios.
+        socios[cedula] = [nombre, edad, password, 0, ahorro] #Almacenamos todos los datos pedidos para hacer el registro dentro del diccionario socios, siguiendo el orden que ya estaba definido.
+    if (opcionClientes == 2):
+        fap()
+        tipoCliente = int(input("1.Socio\n2.Tercero\n3.Salir\nSeleccione una opcion: "))
+        borrarPantalla() #Llamamos la funcion para borrar pantalla de consola cada vez que pasemos de  pagina.
+        if (tipoCliente == 1):
+            login()
+        elif (tipoCliente == 2):
+            loginTerceros()
+        elif (tipoCliente == 3):
+            menuPrincipal()
+        else:
+            print("Digite una opcion correcta")
+            menuClientes()
+    elif (opcionClientes == 3):
+        borrarPantalla()
+        menuPrincipal()
+    else:
+        print("Digite una opcion correcta")
+        menuClientes()
+
 #Funcion que ejecuta el menu principal de la aplicacion de acuerdo al rol que se quiera ingresar
 def menuPrincipal():
     fap()
