@@ -1,3 +1,10 @@
+#con esta libreria contiene una funcion que permite saber la cantidad de dias que tiene
+#un mes dependiendo del año "monthrange(year,month)"
+import calendar
+
+#esta libreria contiene funciones para saber la fecha y hora actual "datetime.now()"
+from datetime import datetime
+
 #Esta libreria permite utilizar alguna funciones del sistema operativo
 import os
 
@@ -37,8 +44,56 @@ socios = {
     6 : ["Diana", 15, "diana123", 0 ,{'2022/10':['25 12:56:14', 30000]}]
 }
 
+terceros = {
+
+}
+
+#Definimos la fecha actual con variables globales para que puedan ser utilizadas en todo el codigo
+year=2022
+month=10
+day=1
+
 #En esta variable se alamacena el total de dinero ahorrado en el banco
 ahorrosTotales = 325000
+
+#Las siguientes tres funciones nos permitiran poder actualizar la fecha automaticamente cada dia hace uso de las variables globales day,month,year
+
+#Esta funcion cambia el año ,se ejecuta cuando la variable month en cambioMes() en el mes 12 haciendo que el mes sea igual a 1, y se pase al año siguiente
+def cambioYear():
+    global year
+    year +=1
+
+#Funcion para actualizar el mes
+def cambioMes():
+    global month
+    if (month == 12): #si la fecha es el dia 31 del mes 12 la funcion volvera al dia 1ero (Enero)
+        month = 1
+        cambioYear()
+    else:
+        month+=1
+
+#Esta funcion nos indica si es el ultimo dia del mes dependiendo del año,en caso de ser asi el dia sera cambiado a 1 y se pasara al siguiente mes
+def cambioDay():
+    global day,month,year
+    if (day == (calendar.monthrange(year,month)[1])):
+        day = 1
+        cambioMes()
+    else:
+        day += 1
+
+#Esta linea de codigo ejecuta cambioDay() cada dia por medio de la libreria schedule
+#para que actualice el dia en la fecha.
+schedule.every().day.do(cambioDay)
+
+#Esta función se encarga de obtener la hora actual y devolverla en un formato específico.
+def horaActual():
+    global day #Llamamos la variable global day para obtener el dia del mes.
+    hora = datetime.now() #Se obtiene la hora, minuto y segundo con la función datetime.now() de la librería datetime.
+    if (day < 10): #Si el dia es menor al dia 10 del mes
+        hora = "0"+str(day)+" "+str(hora.hour)+":"+str(hora.minute)+":"+str(hora.second) #Se añade un 0 al dia y se guarda la informacion de del dia hora:minute:segundo en la variable hora
+    else: #Si el dia es mayor al dia 10 del mes
+        hora = str(day)+" "+str(hora.hour)+":"+str(hora.minute)+":"+str(hora.second) #Se guarda la informacion de del dia hora:minute:segundo en la variable hora
+    return(hora)
 
 #Esta funcion nos permite traer la cantidad total que un usuario ha ahorrado
 def totalAhorradoSocio(cedula):
