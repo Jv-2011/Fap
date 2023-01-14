@@ -8,6 +8,9 @@ from datetime import datetime
 #Esta libreria permite utilizar alguna funciones del sistema operativo
 import os
 
+#Bajamos la libreria de schedule para programar ciertas acciones cada cierto tiempo
+import schedule
+
 #Funcion que identifica el sistema operativo y limpia la consola cada vez que se ejecuta
 def borrarPantalla():
     if (os.name == "posix"): #si el OS es basado en unix ejecuta "clear"
