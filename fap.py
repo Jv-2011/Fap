@@ -260,8 +260,11 @@ def menuGanancias():
       for clave in socios: 
         valor = socios[usuario][3][0]
         cuotas = socios[usuario][3][1]
+      gananciaParcial = (valor * 1) / 100
+      gananciaTotal = gananciaParcial * cuotas
       print("PRESTAMO",valor)
       print("CUOTAS",cuotas)
+      print("GANANCIAS:",int(gananciaTotal))
     else:
       borrarPantalla()
       print("no hay datos")
@@ -515,4 +518,3 @@ def menuPrincipal():
 
 borrarPantalla()
 menuPrincipal()
-
