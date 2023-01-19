@@ -44,9 +44,7 @@ De es esta manera quedara asi un par llave-valor  en el diccionario socios:
 [cedula]: ["Nombre", edad, contraseña,{'año/mes':['dia hora', ahorro,'dia hora', ahorro]}]'''
 
 socios = {
-  1: ["Diego", 15, "diego123", 0, {
-    '2022/10': ['01 22:53:14', 25000]
-  }],
+  1: ["Diego", 15, "diego123", 0, {'2022/10': ['01 22:53:14', 25000]}],
   2: ["Roberto", 15, "roberto123", 0, {
     '2022/10': ['25 12:56:14', 50000]
   }],
@@ -165,7 +163,7 @@ def cuotasPrestamo(diccionario, usuario):
       elif (cuotaMes == 2):  #Sino nos dijirimos al menu de socios
         menuSocios(cedula)
       else:
-        print("Digite una opcion correcta")
+        print("Digite una opcion correcta 1")
         cuotasPrestamo(diccionario, usuario)
 
 
@@ -206,12 +204,8 @@ def prestamo():
         print("Hay disponible para prestar: ", disponible)
         cantidadPrestamo = int(input("Digite la cantidad a prestar: "))
         cuotas = int(input("Digite la cantidad de cuotas: "))
-        if (cantidadPrestamo <=
-            disponible):  #Si el monto solicitado es menor al disponible.
-          socios[usuario][3] = [
-            cantidadPrestamo, cuotas, 0.01,
-            str(year) + "/" + str(month)
-          ]  #Entonces se registra en el diccionario socios en la posicion 3
+        if (cantidadPrestamo <=disponible):  #Si el monto solicitado es menor al disponible.
+          socios[usuario][3] = [cantidadPrestamo, cuotas, 0.01,str(year) + "/" + str(month)]  #Entonces se registra en el diccionario socios en la posicion 3
           ahorrosTotales -= cantidadPrestamo  #Se resta la cantidad del prestamo al dinero total del fondo.
           borrarPantalla()
           print("Usted ha hecho un prestamo por: $" + str(cantidadPrestamo))
@@ -251,13 +245,31 @@ def prestamo():
         print("No se puede prestar esa  cantidad de dinero")
 
 
-def ganancias():
+def menuGanancias():
   fap()
+  global ahorrosTotales
   tipoGanancia = int(
     input(
-      "Digite el tipo de cliente\n1.Ganancia actual\n2.Proyeccion de la ganancia\n3.Salir\nseleccione una opcion: "
+      "Seleccione el tipo de ganancia\n1.Ganancia actual\n2.Proyeccion de la ganancia\n3.Salir\nseleccione una opcion:"
     ))
-  if (tipoGanancia == 3):
+  if (tipoGanancia == 1):
+    borrarPantalla()
+    usuario = int(
+      input("Digite la cedula del socio: "))
+    if (socios[usuario][3] != 0):
+      for clave in socios: 
+        valor = socios[usuario][3][0]
+        cuotas = socios[usuario][3][1]
+      print("PRESTAMO",valor)
+      print("CUOTAS",cuotas)
+    else:
+      borrarPantalla()
+      print("no hay datos")
+      menuGanancias()
+    print("Aqui se muestra la ganancia actual", ahorrosTotales)
+    print("PRUEBA", terceros)
+    menuGanancias()
+  elif (tipoGanancia == 3):
     borrarPantalla()
     menuAdmin()
 
@@ -272,13 +284,13 @@ def menuAdmin():
     prestamo()
   elif (opcion == 2):
     borrarPantalla()
-    ganancias()
+    menuGanancias()
   elif (opcion == 3):
     borrarPantalla()
     menuPrincipal()
   else:
     borrarPantalla()
-    print("Digite una opcion correcta")
+    print("Digite una opcion correcta 2")
     menuAdmin()
 
 
@@ -380,7 +392,7 @@ def menuTerceros(usuario):
   elif (opcionTerceros == 2):
     menuPrincipal()
   else:
-    print("Digite una opcion correcta")
+    print("Digite una opcion correcta 3")
     menuTerceros(usuario)
 
 
@@ -473,13 +485,13 @@ def menuClientes():
     elif (tipoCliente == 3):
       menuPrincipal()
     else:
-      print("Digite una opcion correcta")
+      print("Digite una opcion correcta 4")
       menuClientes()
   elif (opcionClientes == 3):
     borrarPantalla()
     menuPrincipal()
   else:
-    print("Digite una opcion correcta")
+    print("Digite una opcion correcta 5")
     menuClientes()
 
 
@@ -497,9 +509,10 @@ def menuPrincipal():
   elif (opcion == 3):
     print("\nEl programa ha finalizado\nAdios  ")
   else:
-    print("Digite una opcion correcta")
+    print("Digite una opcion correcta 6")
     menuPrincipal()
 
 
 borrarPantalla()
 menuPrincipal()
+
