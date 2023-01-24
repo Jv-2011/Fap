@@ -176,10 +176,14 @@ def fijarFecha():
 
 #Esta función se encarga de calcular y mostrar la cuota del préstamo que un usuario debe pagar en un mes determinado
 cuotasPagadas = 0
+cuotaDelmes = 0
+gananciaTotal = 0
 def cuotasPrestamo(diccionario, usuario):
     fap()
     global ahorrosTotales
     global cuotasPagadas
+    global cuotaDelmes
+    global gananciaTotal
     fecha = str(year) + "/" + str(month)  #Traemos el año y el mes actual y los almacenamos en la variable fecha
     if (diccionario[usuario][3] == 0):  #Primero, se verifica si el usuario tiene un préstamo asignado.
         borrarPantalla()
@@ -191,14 +195,16 @@ def cuotasPrestamo(diccionario, usuario):
         else:  #Si no tiene ningun pago
             cuotas = diccionario[usuario][3][1]  #Trae el numero de cuotas del prestamo
             prestamo = diccionario[usuario][3][0]  #Trae la cantidad del prestamo
-            interes = diccionario[usuario][3][2]  #Trae el interes que tiene que ser aplicado a cada cuota
-            print("¿Desea pagar la cuota del mes?. La cuota de este mes es : $", str((prestamo / cuotas) + ((prestamo / cuotas) * interes)))  #Se muestra el monto de la cuota y se le pregunta al usuario si desea pagarla.
+            interes = diccionario[usuario][3][2] 
+            cuotaDelmes = int((prestamo / cuotas) + ((prestamo / cuotas) * interes)) #Trae el interes que tiene que ser aplicado a cada cuota
+            gananciaTotal += cuotaDelmes
+            print("¿Desea pagar la cuota del mes?. La cuota de este mes es : $", cuotaDelmes)  #Se muestra el monto de la cuota y se le pregunta al usuario si desea pagarla.
             cuotaMes = int(input("1.Si\n2.Salir\nSeleccione una opcion: "))
             if (cuotaMes == 1):  #Si la respuesta es afirmativa
                 diccionario[usuario][3].append(fecha)  #Se agrega la fecha de pago al diccionario como un elemento más
                 ahorrosTotales += (prestamo / cuotas) + ((prestamo / cuotas) * interes)  #Se actualizan los ahorros totales del fondo sumando el monto de la cuota
                 prestamo -= (prestamo / cuotas)  #El préstamo disminuye con el valor de la cuota
-                cuotas =- 1
+                cuotas -= 1
                 menuPrincipal()
                  #Se resta una cuota pendiente
             elif (cuotaMes == 2):  #Sino nos dijirimos al menu de socios
@@ -278,17 +284,23 @@ def menuGanancias():
     fap()
     global ahorrosTotales
     global socios
-    global cuotasPagadas
+    global cuotaDelmes
+    global gananciaTotal
     tipoGanancia = int(
     input("Seleccione el tipo de ganancia\n1.Ganancia actual\n2.Proyeccion de la ganancia\n3.Salir\nseleccione una opcion:"))
     if (tipoGanancia == 1):
-        for i, value in socios.items():
+        print("La ganancia actual es:",gananciaTotal)
+        menuGanancias()
+    if (tipoGanancia == 2):
+         for i, value in socios.items():
             if type(value[3])==list:
                 prestamo = value[3][0]
                 cuotas = value[3][1]
                 print(prestamo)
                 print(cuotas)
-        print("PRUEBAAA",cuotasPagadas)
+                proyeccion = cuotaDelmes * cuotas
+                print("La proyeccion es:",proyeccion)
+                menuGanancias()
     elif (tipoGanancia == 3):
         borrarPantalla()
         menuAdmin() 
