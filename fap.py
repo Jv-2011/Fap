@@ -175,8 +175,11 @@ def fijarFecha():
         int(input("ingresa de nuevo un valor valido para el dia\nIngrese el dia: "))
 
 #Esta función se encarga de calcular y mostrar la cuota del préstamo que un usuario debe pagar en un mes determinado
+cuotasPagadas = 0
 def cuotasPrestamo(diccionario, usuario):
     fap()
+    global ahorrosTotales
+    global cuotasPagadas
     fecha = str(year) + "/" + str(month)  #Traemos el año y el mes actual y los almacenamos en la variable fecha
     if (diccionario[usuario][3] == 0):  #Primero, se verifica si el usuario tiene un préstamo asignado.
         borrarPantalla()
@@ -191,16 +194,18 @@ def cuotasPrestamo(diccionario, usuario):
             interes = diccionario[usuario][3][2]  #Trae el interes que tiene que ser aplicado a cada cuota
             print("¿Desea pagar la cuota del mes?. La cuota de este mes es : $", str((prestamo / cuotas) + ((prestamo / cuotas) * interes)))  #Se muestra el monto de la cuota y se le pregunta al usuario si desea pagarla.
             cuotaMes = int(input("1.Si\n2.Salir\nSeleccione una opcion: "))
-        if (cuotaMes == 1):  #Si la respuesta es afirmativa
-            diccionario[usuario][3].append(fecha)  #Se agrega la fecha de pago al diccionario como un elemento más
-            ahorrosTotales += (prestamo / cuotas) + ((prestamo / cuotas) * interes)  #Se actualizan los ahorros totales del fondo sumando el monto de la cuota
-            prestamo -= (prestamo / cuotas)  #El préstamo disminuye con el valor de la cuota
-            cuotas -= 1  #Se resta una cuota pendiente
-        elif (cuotaMes == 2):  #Sino nos dijirimos al menu de socios
-            menuSocios(cedula)
-        else:
-            print("Digite una opcion correcta")
-            cuotasPrestamo(diccionario, usuario)
+            if (cuotaMes == 1):  #Si la respuesta es afirmativa
+                diccionario[usuario][3].append(fecha)  #Se agrega la fecha de pago al diccionario como un elemento más
+                ahorrosTotales += (prestamo / cuotas) + ((prestamo / cuotas) * interes)  #Se actualizan los ahorros totales del fondo sumando el monto de la cuota
+                prestamo -= (prestamo / cuotas)  #El préstamo disminuye con el valor de la cuota
+                cuotas =- 1
+                menuPrincipal()
+                 #Se resta una cuota pendiente
+            elif (cuotaMes == 2):  #Sino nos dijirimos al menu de socios
+                menuSocios(cedula)
+            else:
+                print("Digite una opcion correcta")
+                cuotasPrestamo(diccionario, usuario)
 
 
 #Esta funcion nos permite traer la cantidad total que un usuario ha ahorrado
@@ -243,61 +248,55 @@ def prestamo():
                 else:
                     print("No se puede prestar esta cantidad")
                     prestamo()
-            else:  #Si existe un prestamo
-                borrarPantalla()
-                print("Esta cuenta ya tiene un prestamo")
+        else:  #Si existe un prestamo
+            borrarPantalla()
+            print("Esta cuenta ya tiene un prestamo")
+            menuAdmin()
+    elif (tipoCliente == 2):  #Si el cliente es un tercero
+        cedula = int(input("Digite la cedula del usuario: "))
+        nombre = str(input("Digite el nombre del usuario: "))
+        edad = int(input("Digite la edad: "))
+        password = str(
+        input("Digite la contraseña: "))  #Se le piden unos datos para registrarlo en el diccionario de terceros
+        print("Hay disponible para prestar: $", str(ahorrosTotales))
+        while True:
+            cantidadPrestamo = int(input("Digite la cantidad a prestar: "))
+            cuotas = int(input("Digite la cantidad de cuotas: "))
+            if (cantidadPrestamo <= ahorrosTotales):  #Si la cantidad pedida para el prestamo es menor o igual al total que tiene el fondo
+                terceros[cedula] = [nombre, edad, password,[cantidadPrestamo, cuotas, 0.02,str(year) + "/" + str(month)]]  #Añade este prestamos a la posicion 3 del usario del diccionario tercero
+                ahorrosTotales -= cantidadPrestamo
+                print("PRUEBAA",ahorrosTotales) #borrar despues de prueba
+                print("Usted ha hecho un prestamo por: $" + str(cantidadPrestamo))
                 menuAdmin()
-        elif (tipoCliente == 2):  #Si el cliente es un tercero
-            cedula = int(input("Digite la cedula del usuario: "))
-            nombre = str(input("Digite el nombre del usuario: "))
-            edad = int(input("Digite la edad: "))
-            password = str(
-            input("Digite la contraseña: "))  #Se le piden unos datos para registrarlo en el diccionario de terceros
-            print("Hay disponible para prestar: $", str(ahorrosTotales))
-            while True:
-                cantidadPrestamo = int(input("Digite la cantidad a prestar: "))
-                cuotas = int(input("Digite la cantidad de cuotas: "))
-                if (cantidadPrestamo <= ahorrosTotales):  #Si la cantidad pedida para el prestamo es menor o igual al total que tiene el fondo
-                    terceros[cedula] = [nombre, edad, password,[cantidadPrestamo, cuotas, 0.02,str(year) + "/" + str(month)]]  #Añade este prestamos a la posicion 3 del usario del diccionario tercero
-                    ahorrosTotales -= cantidadPrestamo
-                    print(ahorrosTotales) '''borrar despues de prueba'''
-                    print("Usted ha hecho un prestamo por: $" + str(cantidadPrestamo))
-                    menuAdmin()
-            break
-                else:#Sino le dira al admin que no puede prestar ese dinero y le pedira de nuevo el valor del prestamo hasta que este sea   valido
-                    borrarPantalla()
-                    print("No se puede prestar esa  cantidad de dinero")
+                break
+            else:#Sino le dira al admin que no puede prestar ese dinero y le pedira de nuevo el valor del prestamo hasta que este sea   valido
+                borrarPantalla()
+                print("No se puede prestar esa  cantidad de dinero")
 
 
 def menuGanancias():
     fap()
     global ahorrosTotales
+    global socios
+    global cuotasPagadas
     tipoGanancia = int(
     input("Seleccione el tipo de ganancia\n1.Ganancia actual\n2.Proyeccion de la ganancia\n3.Salir\nseleccione una opcion:"))
     if (tipoGanancia == 1):
-        borrarPantalla()
-        usuario = int(
-        input("Digite la cedula del socio: "))
-    if (socios[usuario][3] != 0):
-        for clave in socios:
-            valor = socios[usuario][3][0]
-            cuotas = socios[usuario][3][1]
-            gananciaParcial = (valor * 1) / 100
-            gananciaTotal = gananciaParcial * cuotas
-            print("PRESTAMO",valor)
-            print("CUOTAS",cuotas)
-            print("GANANCIAS:",int(gananciaTotal))
+        for i, value in socios.items():
+            if type(value[3])==list:
+                prestamo = value[3][0]
+                cuotas = value[3][1]
+                print(prestamo)
+                print(cuotas)
+        print("PRUEBAAA",cuotasPagadas)
     elif (tipoGanancia == 3):
         borrarPantalla()
-        menuAdmin()
-    else:
+        menuAdmin() 
+""" else:   
         borrarPantalla()
         print("no hay datos")
         menuGanancias()
-        print("Aqui se muestra la ganancia actual", ahorrosTotales)
-        print("PRUEBA", terceros)
-        menuGanancias()
-
+"""
 
 #Menu del administrador
 def menuAdmin():
@@ -346,9 +345,9 @@ def ahorroProgramado(cedula):
         if isinstance(i, dict):  #Para cada elemento de la lista, se verifica si es un diccionario (Si el usuario ya ha realizado algún ahorro en el mes actual)
             x = str(i.keys())
             x = x[11:-2].replace("'", "")  #Si lo es, se extrae el año y mes del diccionario y se compara con el año y mes pasados como parámetros
-        if (x == (str(year) + "/" + str(month))):  #Si coinciden(Si ya tiene un ahorro ese mes), se ejecuta la función menuSocios()
-            menuSocios(cedula)
-            break
+            if (x == (str(year) + "/" + str(month))):  #Si coinciden(Si ya tiene un ahorro ese mes), se ejecuta la función menuSocios()
+                menuSocios(cedula)
+                break
         else:  #De lo contrario(Si ese mes no tiene un ahorro), pide un ahorro (con la función ahorro() con la misma cédula como parámetro.)
             ahorro(cedula)
             break
@@ -367,14 +366,14 @@ def ahorro(cedula):
         if isinstance(i, dict):  #Para cada elemento de la lista, se verifica si es un diccionario (Si el usuario ya ha realizado algún ahorro en el mes actual)
             x = str(i.keys())
             x = x[11:-2].replace("'", "")  #Si lo es, se extrae el año y mes del diccionario y se compara con el año y mes pasados
-        if (x == (str(year) + "/" + str(month))):  #Si es así, se agrega la hora actual y la cantidad ahorrada al diccionario correspondiente.
-            i[x].append(horaActual())
-            i[x].append(cantidadAhorrar)
+            if (x == (str(year) + "/" + str(month))):  #Si es así, se agrega la hora actual y la cantidad ahorrada al diccionario correspondiente.
+                i[x].append(horaActual())
+                i[x].append(cantidadAhorrar)
             ahorrosTotales += cantidadAhorrar
         else:  #Si no es así, se creará un nuevo diccionario con la fecha actual, hora actual y la cantidad ahorrada.
             socios[cedula].append(
             {str(year) + "/" + str(month): [horaActual(), cantidadAhorrar]})
-            ahorroTotales += cantidadAhorrar
+            ahorrosTotales += cantidadAhorrar
             break
     borrarPantalla()
     print("Usted ha ahorrado existosamente: $" + str(cantidadAhorrar))
@@ -469,14 +468,12 @@ La tercera opción es "Salir", que al seleccionarla regresará al menú principa
 
 def menuClientes():
     fap()
-    opcionClientes = int(
-        input(
-        "1.Registrarme \n2.Iniciar Sesion \n3.Salir \nSeleccione una opcion: "))
+    opcionClientes = int(input("1.Registrarme \n2.Iniciar Sesion \n3.Salir \nSeleccione una opcion:"))
     borrarPantalla(
     )  #Llamamos la funcion para borrar pantalla de consola cada vez que pasemos de  pagina.
     if (opcionClientes == 1):
         fap()
-        cedula = int(input("Digite su cedula: "))
+        cedula = str(input("Digite su cedula: "))
         nombre = str(input("Digite su nombre: "))
         edad = int(input("Digite su edad: "))
         password = str(input("Digite su contraseña: "))
@@ -520,7 +517,6 @@ def menuPrincipal():
     else:
         print("Digite una opcion correcta 6")
         menuPrincipal()
-
-
+        
 borrarPantalla()
 menuPrincipal()
