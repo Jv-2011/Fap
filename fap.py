@@ -569,8 +569,7 @@ La tercera opción es "Salir", que al seleccionarla regresará al menú principa
 def menuClientes():
     fap()
     opcionClientes = int(input("1.Registrarme \n2.Iniciar Sesion \n3.Salir \nSeleccione una opcion:"))
-    borrarPantalla(
-    )  #Llamamos la funcion para borrar pantalla de consola cada vez que pasemos de  pagina.
+    borrarPantalla()  #Llamamos la funcion para borrar pantalla de consola cada vez que pasemos de  pagina.
     if (opcionClientes == 1):
         fap()
         cedula = str(input("Digite su cedula: "))
