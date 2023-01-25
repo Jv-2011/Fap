@@ -16,22 +16,22 @@ import schedule
 
 #Funcion que identifica el sistema operativo y limpia la consola cada vez que se ejecuta
 def borrarPantalla():
-  if (os.name == "posix"):  #si el OS es basado en unix ejecuta "clear"
-    os.system("clear")
-  elif (os.name == "ce" or os.name == "nt"
-        or os.name == "dos"):  # sie el OS es windows ejecuta "cls"
-    os.system("cls")
+    if (os.name == "posix"):  #si el OS es basado en unix ejecuta "clear"
+        os.system("clear")
+    elif (os.name == "ce" or os.name == "nt"
+            or os.name == "dos"):  # sie el OS es windows ejecuta "cls"
+        os.system("cls")
 
 
 #Imprime en pantalla una imagen formada con caracteres del banco
 def fap():
-  print("    ███████╗░█████╗░██████╗░")
-  print("    ██╔════╝██╔══██╗██╔══██╗")
-  print("    █████╗░░███████║██████╔╝")
-  print("    ██╔══╝░░██╔══██║██╔═══╝░")
-  print("    ██║░░░░░██║░░██║██║░░░░░")
-  print("    ╚═╝░░░░░╚═╝░░╚═╝╚═╝░░░░░\n")
-  print("  Fondo de Ahorros y Prestamos\n")
+    print("    ███████╗░█████╗░██████╗░")
+    print("    ██╔════╝██╔══██╗██╔══██╗")
+    print("    █████╗░░███████║██████╔╝")
+    print("    ██╔══╝░░██╔══██║██╔═══╝░")
+    print("    ██║░░░░░██║░░██║██║░░░░░")
+    print("    ╚═╝░░░░░╚═╝░░╚═╝╚═╝░░░░░\n")
+    print("  Fondo de Ahorros y Prestamos\n")
 
 
 '''Este diccionario cumple la funcion de base de datos, donde vamos a almacenar cada cliente y sus datos correspondientes en un diccionario en el siguiente formato llave = cedula  valor = arreglo con datos [cedula]: [Nombre, edad, contraseña,prestamos, ahorro1,ahorro2,ahorro3...].
