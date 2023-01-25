@@ -97,20 +97,13 @@ schedule.every().day.do(cambioDay)
 
 #Esta función se encarga de obtener la hora actual y devolverla en un formato específico.
 def horaActual():
-  global day  #Llamamos la variable global day para obtener el dia del mes.
-  hora = datetime.now(
-  )  #Se obtiene la hora, minuto y segundo con la función datetime.now() de la librería datetime.
-  if (day < 10):  #Si el dia es menor al dia 10 del mes
-    hora = "0" + str(day) + " " + str(hora.hour) + ":" + str(
-      hora.minute
-    ) + ":" + str(
-      hora.second
-    )  #Se añade un 0 al dia y se guarda la informacion de del dia hora:minute:segundo en la variable hora
-  else:  #Si el dia es mayor al dia 10 del mes
-    hora = str(day) + " " + str(hora.hour) + ":" + str(hora.minute) + ":" + str(
-      hora.second
-    )  #Se guarda la informacion de del dia hora:minute:segundo en la variable hora
-  return (hora)
+    global day  #Llamamos la variable global day para obtener el dia del mes.
+    hora = datetime.now()  #Se obtiene la hora, minuto y segundo con la función datetime.now() de la librería datetime.
+    if (day < 10):  #Si el dia es menor al dia 10 del mes
+        hora = "0" + str(day) + " " + str(hora.hour) + ":" + str(hora.minute) + ":" + str(hora.second)  #Se añade un 0 al dia y se guarda la informacion de del dia hora:minute:segundo en la variable hora
+    else:  #Si el dia es mayor al dia 10 del mes
+        hora = str(day) + " " + str(hora.hour) + ":" + str(hora.minute) + ":" + str(hora.second)  #Se guarda la informacion de del dia hora:minute:segundo en la variable hora
+    return (hora)
 
 
 def imprimirFecha():
