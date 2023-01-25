@@ -175,13 +175,11 @@ def fijarFecha():
         int(input("ingresa de nuevo un valor valido para el dia\nIngrese el dia: "))
 
 #Esta función se encarga de calcular y mostrar la cuota del préstamo que un usuario debe pagar en un mes determinado
-cuotasPagadas = 0
 cuotaDelmes = 0
 gananciaTotal = 0
 def cuotasPrestamo(diccionario, usuario):
     fap()
     global ahorrosTotales
-    global cuotasPagadas
     global cuotaDelmes
     global gananciaTotal
     fecha = str(year) + "/" + str(month)  #Traemos el año y el mes actual y los almacenamos en la variable fecha
@@ -195,8 +193,8 @@ def cuotasPrestamo(diccionario, usuario):
         else:  #Si no tiene ningun pago
             cuotas = diccionario[usuario][3][1]  #Trae el numero de cuotas del prestamo
             prestamo = diccionario[usuario][3][0]  #Trae la cantidad del prestamo
-            interes = diccionario[usuario][3][2] 
-            cuotaDelmes = int((prestamo / cuotas) + ((prestamo / cuotas) * interes)) #Trae el interes que tiene que ser aplicado a cada cuota
+            interes = diccionario[usuario][3][2] #Trae el interes que tiene que ser aplicado a cada cuota
+            cuotaDelmes = int((prestamo / cuotas) + ((prestamo / cuotas) * interes)) 
             gananciaTotal += cuotaDelmes
             print("¿Desea pagar la cuota del mes?. La cuota de este mes es : $", cuotaDelmes)  #Se muestra el monto de la cuota y se le pregunta al usuario si desea pagarla.
             cuotaMes = int(input("1.Si\n2.Salir\nSeleccione una opcion: "))
@@ -279,31 +277,91 @@ def prestamo():
                 borrarPantalla()
                 print("No se puede prestar esa  cantidad de dinero")
 
-
+cuo = 0
+cuoT = 0
+proyeccionGanancias = 0
+proyeccionTercero = 0
+proyeccionSocios = 0
+listaT = []
+listaS = []
 def menuGanancias():
     fap()
     global ahorrosTotales
     global socios
     global cuotaDelmes
     global gananciaTotal
+    global cuo
+    global cuoT
+    global proyeccionGanancias
+    global proyeccionSocios
+    global proyeccionTercero
+    global listaT
+    global listaS
     tipoGanancia = int(
     input("Seleccione el tipo de ganancia\n1.Ganancia actual\n2.Proyeccion de la ganancia\n3.Salir\nseleccione una opcion:"))
     if (tipoGanancia == 1):
         print("La ganancia actual es:",gananciaTotal)
+        print(terceros)
         menuGanancias()
     if (tipoGanancia == 2):
-         for i, value in socios.items():
+        for i, value in terceros.items():
+            cuoT = 0
+            if type(value[3])==list:
+                prestamoTerceros = value[3][0]
+                cuotasTercero = value[3][1]
+                listaT.append(prestamoTerceros)
+                print("LISTAAA TERCERO",listaT)
+                listaTsuma = (sum(listaT))
+                print("LISTA DE TERCEROS",listaTsuma)
+                cuoT += cuotasTercero
+                proyeccionTercero = ((listaTsuma / cuoT) * (cuoT * 0.02) + listaTsuma)
+            print("prestamo tercerooos",prestamoTerceros)
+            print("cuotas tercerooos",cuotasTercero)   
+        for i, value in socios.items():
+            cuo = 0
+            proyeccionGanancias = 0
             if type(value[3])==list:
                 prestamo = value[3][0]
                 cuotas = value[3][1]
-                print(prestamo)
-                print(cuotas)
-                proyeccion = cuotaDelmes * cuotas
-                print("La proyeccion es:",proyeccion)
-                menuGanancias()
+                listaS.append(prestamo)
+                print("LISTAAA SOCIO",listaS)
+                listaSsuma = (sum(listaS))
+                #print("LISTA DE SOCIOS",listaT)
+                cuo += cuotas
+            #print(prestamo)
+            #print(cuotas)
+                proyeccionSocios = ((listaSsuma / cuo) * (cuo * 0.01) + listaSsuma)
+                proyeccionGanancias = proyeccionTercero + proyeccionSocios
+                print("proyeccion es",proyeccionGanancias)
+        listaS.clear()
+        listaT.clear()
+        menuGanancias()
     elif (tipoGanancia == 3):
         borrarPantalla()
         menuAdmin() 
+
+def consultaAhorros():
+    fap()
+    opcion = int(
+        input("1.Consultar ahorro de socio\n2.Consultar ahorro total\n3.Salir\nseleccione una opcion: "))
+    if(opcion == 1):
+        borrarPantalla()
+        usuario = int(input("Ingrese la cedula del socio:"))
+        total = totalAhorradoSocio(usuario)
+        print("el usuario tiene ahorrado",total)
+        consultaAhorros()
+    elif(opcion == 2):
+        print("Los ahorros totales de los socios son:",ahorrosTotales)
+        consultaAhorros()
+        borrarPantalla()
+    elif(opcion == 3):
+        borrarPantalla()
+        menuAdmin() 
+    else:
+        print("Ingrese una opcion correcta")
+        consultaAhorros()
+
+
 """ else:   
         borrarPantalla()
         print("no hay datos")
@@ -314,7 +372,7 @@ def menuGanancias():
 def menuAdmin():
     fap()
     opcion = int(
-        input("1.Hacer prestamo\n2.Ganancias\n3.Configurar fecha\n4.Salir\nseleccione una opcion: "))
+        input("1.Hacer prestamo\n2.Ganancias\n3.Consultar Ahorros\n4.Configurar fecha\n5.Salir\nseleccione una opcion: "))
     if (opcion == 1):
         borrarPantalla()
         prestamo()
@@ -323,8 +381,11 @@ def menuAdmin():
         menuGanancias()
     elif (opcion == 3):
         borrarPantalla()
+        consultaAhorros()
+    elif (opcion == 4):
+        borrarPantalla()
         menuTiempo()
-    elif(opcion == 4):
+    elif(opcion == 5):
         menuPrincipal()
     else:
         borrarPantalla()
