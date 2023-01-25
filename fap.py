@@ -184,29 +184,39 @@ def cuotasPrestamo(diccionario, usuario):
     if (diccionario[usuario][3] == 0):  #Primero, se verifica si el usuario tiene un préstamo asignado.
         borrarPantalla()
         print("\n*No tienes ningun prestamos asignado*\n")
-        menu1()
+        menuPrincipal()
     else:  #Si tiene un prestamo asignado
         if (fecha in diccionario[usuario][3]):  #Verifica si ya hay un pago
             print("Ya pagaste la cuota de este mes")
+            if(diccionario == socios):
+                menuSocios(usuario)
+            elif(diccionario == terceros):
+                menuTerceros(usuario)
         else:  #Si no tiene ningun pago
-            cuotas = diccionario[usuario][3][1]  #Trae el numero de cuotas del prestamo
             prestamo = diccionario[usuario][3][0]  #Trae la cantidad del prestamo
             interes = diccionario[usuario][3][2] #Trae el interes que tiene que ser aplicado a cada cuota
+            cuotas = diccionario[usuario][3][1]  #Trae el numero de cuotas del prestamo
             cuotaPagada = diccionario[usuario][3][4]
-            cuotaDelmes = int((prestamo / cuotas) + ((prestamo / cuotas) * interes))
+            cuotaCapital = int(prestamo / cuotas)
+            cuotaDelMes = int((prestamo / cuotas) + ((prestamo / cuotas) * interes))
             gananciaTotal += cuotaDelmes
-            print("¿Desea pagar la cuota del mes?. La cuota de este mes es : $", cuotaDelmes)  #Se muestra el monto de la cuota y se le pregunta al usuario si desea pagarla.
+            print("¿Desea pagar la cuota del mes?. La cuota de este mes es : $", cuotaDelMes)  #Se muestra el monto de la cuota y se le pregunta al usuario si desea pagarla.
             cuotaMes = int(input("1.Si\n2.Salir\nSeleccione una opcion: "))
             if (cuotaMes == 1):  #Si la respuesta es afirmativa
-                suma = cuotaPagada += 1
-                cuotaPagada.insert([4], suma)
-                ahorrosTotales += (prestamo / cuotas) + ((prestamo / cuotas) * interes)  #Se actualizan los ahorros totales del fondo sumando el monto de la cuota
-                prestamo -= (prestamo / cuotas)  #El préstamo disminuye con el valor de la cuota
-                cuotas -= 1
-                menuPrincipal()
+                diccionario[usuario][3].append(str(year) + "/" + str(month))
+                diccionario[usuario][3][4] += 1
+                ahorrosTotales += int(cuotaDelMes)  #Se actualizan los ahorros totales del fondo sumando el monto de la cuota
+                diccionario[usuario][3][0] -= cuotaCapital  #El préstamo disminuye con el valor de la cuota
+                diccionario[usuario][3][1] -= 1
+                print(diccionario[usuario][3])
+                print(ahorrosTotales)
+                if(diccionario == socios):
+                    menuSocios(usuario)
+                elif(diccionario == terceros):
+                    menuTerceros(usuario)
                 #Se resta una cuota pendiente
             elif (cuotaMes == 2):  #Sino nos dijirimos al menu de socios
-                menuSocios(cedula)
+                menuSocios(usuario)
             else:
                 print("Digite una opcion correcta")
                 cuotasPrestamo(diccionario, usuario)
@@ -214,17 +224,13 @@ def cuotasPrestamo(diccionario, usuario):
 
 #Esta funcion nos permite traer la cantidad total que un usuario ha ahorrado
 def totalAhorradoSocio(cedula):
-  cantidadAhorroTotal = 0
-  for i in socios[cedula]:  #Este código recorre una lista de socios
-    if (isinstance(
-        i, dict)):  #Se comprueba si el elemento actual es un diccionario
-      for j in i:  #Si es así, se itera sobre los elementos del diccionario (j)
-        for k in range(
-            1, len(i[j]), 2
-        ):  #Se recorren los elementos del mismo desde la posición 1 hasta la última posición con saltos de 2 en 2 (k)
-          cantidadAhorroTotal += int(
-            i[j][k])  #se suman los valores a la variable cantidadAhorroTotal
-  return cantidadAhorroTotal
+    cantidadAhorroTotal = 0
+    for i in socios[cedula]:  #Este código recorre una lista de socios
+        if (isinstance(i, dict)):  #Se comprueba si el elemento actual es un diccionario
+            for j in i:  #Si es así, se itera sobre los elementos del diccionario (j)
+                for k in range(1, len(i[j]), 2):  #Se recorren los elementos del mismo desde la posición 1 hasta la última posición con saltos de 2 en 2 (k)
+                    cantidadAhorroTotal += int(i[j][k])  #se suman los valores a la variable cantidadAhorroTotal
+    return cantidadAhorroTotal
 
 
 #Esta funcion permite al administrador hacer un prestamo a un cliente, ya sea un socio o un tercero
@@ -356,7 +362,7 @@ def consultaAhorros():
         borrarPantalla()
     elif(opcion == 3):
         borrarPantalla()
-        menuAdmin() 
+        menuAdmin()
     else:
         print("Ingrese una opcion correcta")
         consultaAhorros()
@@ -421,9 +427,9 @@ def ahorroProgramado(cedula):
             if (x == (str(year) + "/" + str(month))):  #Si coinciden(Si ya tiene un ahorro ese mes), se ejecuta la función menuSocios()
                 menuSocios(cedula)
                 break
-            else:  #De lo contrario(Si ese mes no tiene un ahorro), pide un ahorro (con la función ahorro() con la misma cédula como parámetro.)
-                ahorro(cedula)
-                break
+        else:  #De lo contrario(Si ese mes no tiene un ahorro), pide un ahorro (con la función ahorro() con la misma cédula como parámetro.)
+            ahorro(cedula)
+            break
 
 #Esta función permite al usuario ahorrar una cantidad determinada de dinero.
 def ahorro(cedula):
