@@ -334,7 +334,7 @@ def menuGanancias():
         menuGanancias()
     elif (tipoGanancia == 3):
         borrarPantalla()
-        menuAdmin() 
+        menuAdmin()
 
 def consultaAhorros():
     fap()
