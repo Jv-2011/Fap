@@ -174,6 +174,67 @@ def fijarFecha():
     while day>(calendar.monthrange(year,month)[1]) and day<1:
         int(input("ingresa de nuevo un valor valido para el dia\nIngrese el dia: "))
 
+def imprimirFecha():
+    print(str(day)+"/"+str(month)+"/"+str(year))
+
+def menuTiempo():
+    borrarPantalla()
+    op=0
+    while op!=6:
+        fap()
+        op = int(input("1.fecha/hora Actual \n2.Cambiar fecha \n3.cambio siguiente dia\n4.cambiar siguiente mes\n5.cambiar siguiente año\n6.Atras \nSeleccione una opcion: "))
+        if op == 1:
+            borrarPantalla()
+            print("fecha y la hora actuales:")
+            imprimirFecha()
+            print(str(horaActual())[2:]+"\n")
+        elif op == 2:
+            borrarPantalla()
+            fijarFecha()
+        elif op == 3:
+            borrarPantalla()
+            print("La fecha y la hora era :")
+            imprimirFecha()
+            print(str(horaActual())[2:]+"\n")
+            cambioDay()
+            print("La fecha y la hora actuales es:")
+            imprimirFecha()
+            print(str(horaActual())[2:]+"\n")
+
+        elif op == 4:
+            borrarPantalla()
+            print("La fecha y la hora era :")
+            imprimirFecha()
+            print(str(horaActual())[2:]+"\n")
+            cambioMes()
+            print("La fecha y la hora actuales es:")
+            imprimirFecha()
+            print(str(horaActual())[2:]+"\n")
+        elif op == 5:
+            borrarPantalla()
+            print("La fecha y la hora era :")
+            imprimirFecha()
+            print(str(horaActual())[2:]+"\n")
+            cambioYear()
+            print("La fecha y la hora actuales es:")
+            imprimirFecha()
+            print(str(horaActual())[2:]+"\n")
+        elif op == 6:
+            menuPrincipal()
+
+def fijarFecha():
+    global year,month,day
+    fap()
+    year=int(input("Ingrese el año: "))
+    while year<0:
+        year=int(input("ingresa de nuevo un valor valido para el año\nIngrese el año: "))
+    month=int(input("Ingrese el mes: "))
+    while month>12 or month<1:
+        month=int(input("ingresa de nuevo un valor valido para el mes\nIngrese el mes: "))
+    day=int(input("Ingrese el dia: "))
+    while day>(calendar.monthrange(year,month)[1]) and day<1:
+        int(input("ingresa de nuevo un valor valido para el dia\nIngrese el dia: "))
+
 #Esta función se encarga de calcular y mostrar la cuota del préstamo que un usuario debe pagar en un mes determinado
 cuotaDelmes = 0
 gananciaTotal = 0
@@ -377,13 +438,18 @@ def consultaAhorros():
 #Menu del administrador
 def menuAdmin():
     fap()
+<<<<<<< HEAD
     opcion = int(
         input("1.Hacer prestamo\n2.Ganancias\n3.Consultar Ahorros\n4.Configurar fecha\n5.Salir\nseleccione una opcion: "))
+=======
+    opcion = int(input("1.Hacer prestamo\n2.Configurar fecha\n3.Salir\nseleccione una opcion: "))
+>>>>>>> main
     if (opcion == 1):
         borrarPantalla()
         prestamo()
     elif (opcion == 2):
         borrarPantalla()
+<<<<<<< HEAD
         menuGanancias()
     elif (opcion == 3):
         borrarPantalla()
@@ -392,6 +458,11 @@ def menuAdmin():
         borrarPantalla()
         menuTiempo()
     elif(opcion == 5):
+=======
+        menuTiempo()
+    elif(opcion == 3):
+        borrarPantalla()
+>>>>>>> main
         menuPrincipal()
     else:
         borrarPantalla()
@@ -572,9 +643,14 @@ La tercera opción es "Salir", que al seleccionarla regresará al menú principa
 
 def menuClientes():
     fap()
+<<<<<<< HEAD
     opcionClientes = int(input("1.Registrarme \n2.Iniciar Sesion \n3.Salir \nSeleccione una opcion:"))
     borrarPantalla(
     )  #Llamamos la funcion para borrar pantalla de consola cada vez que pasemos de  pagina.
+=======
+    opcionClientes = int(input("1.Registrarme \n2.Iniciar Sesion\n3.Salir \nSeleccione una opcion: "))
+    borrarPantalla() #Llamamos la funcion para borrar pantalla de consola cada vez que pasemos de  pagina.
+>>>>>>> main
     if (opcionClientes == 1):
         fap()
         cedula = str(input("Digite su cedula: "))
