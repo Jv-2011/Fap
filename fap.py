@@ -177,14 +177,16 @@ def fijarFecha():
 #Esta función se encarga de calcular y mostrar la cuota del préstamo que un usuario debe pagar en un mes determinado
 cuotaDelmes = 0
 gananciaTotal = 0
+pagoCuota = 1
+cuotaPagada = 0
 def cuotasPrestamo(diccionario, usuario):
     fap()
-    global ahorrosTotales, cuotaDelmes, gananciaTotal
+    global ahorrosTotales, cuotaDelmes, gananciaTotal,cuotaPagada, pagoCuota
     fecha = str(year) + "/" + str(month)  #Traemos el año y el mes actual y los almacenamos en la variable fecha
     if (diccionario[usuario][3] == 0):  #Primero, se verifica si el usuario tiene un préstamo asignado.
         borrarPantalla()
         print("\n*No tienes ningun prestamos asignado*\n")
-        menu1()
+        menuPrincipal()
     else:  #Si tiene un prestamo asignado
         if (fecha in diccionario[usuario][3]):  #Verifica si ya hay un pago
             print("Ya pagaste la cuota de este mes")
@@ -198,11 +200,11 @@ def cuotasPrestamo(diccionario, usuario):
             print("¿Desea pagar la cuota del mes?. La cuota de este mes es : $", cuotaDelmes)  #Se muestra el monto de la cuota y se le pregunta al usuario si desea pagarla.
             cuotaMes = int(input("1.Si\n2.Salir\nSeleccione una opcion: "))
             if (cuotaMes == 1):  #Si la respuesta es afirmativa
-                suma = cuotaPagada += 1
-                cuotaPagada.insert([4], suma)
+                cuotaPagada += pagoCuota
                 ahorrosTotales += (prestamo / cuotas) + ((prestamo / cuotas) * interes)  #Se actualizan los ahorros totales del fondo sumando el monto de la cuota
                 prestamo -= (prestamo / cuotas)  #El préstamo disminuye con el valor de la cuota
                 cuotas -= 1
+                print(diccionario[usuario][3])
                 menuPrincipal()
                 #Se resta una cuota pendiente
             elif (cuotaMes == 2):  #Sino nos dijirimos al menu de socios
@@ -452,6 +454,7 @@ def ahorro(cedula):
     menuSocios(cedula)
 
 def menuPrestamo(cedula, diccionario):
+    global cuotaPagada
     opcion = int(input("1.Pagar cuota \n2.Ver estado\n3.Salir \nSeleccione una opcion:"))
     if(opcion == 1):
         cuotasPrestamo(socios, cedula)
@@ -464,7 +467,7 @@ def menuPrestamo(cedula, diccionario):
             if(cuotas != 0):
                 cuotasPagadass = diccionario[cedula][3][4]
                 print("Tus cuotas restantes son", cuotas)
-                print("Tus cuotas pagadas", cuotasPagadass)
+                print("Tus cuotas pagadas", cuotaPagada)
                 menuPrestamo(cedula, diccionario)
             else:
                 print("Ya has acabado de pagar tu prestamo")
@@ -473,6 +476,11 @@ def menuPrestamo(cedula, diccionario):
             borrarPantalla()
             print("No tienes un prestamo asignado")
             menuPrestamo(cedula, diccionario)
+    elif(opcion == 3):
+        borrarPantalla()
+        menuPrincipal()
+
+
 
 
 #Esta es el menu para los socios que les permite seleccionar una opción del menú para realizar una acción.
