@@ -464,6 +464,7 @@ def menuSocios(cedula):
         cuotasPrestamo(socios, cedula)
     elif (opcionClientes == 3):
         print("\nEl programa ha finalizado\nAdios")
+        menuPrincipal()
     else:
         print("Seleccione una opcion correcta")
         menuSocios(cedula)
