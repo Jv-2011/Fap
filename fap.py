@@ -428,18 +428,14 @@ def consultaAhorros():
 #Menu del administrador
 def menuAdmin():
     fap()
-<<<<<<< HEAD
     opcion = int(
         input("1.Hacer prestamo\n2.Ganancias\n3.Consultar Ahorros\n4.Configurar fecha\n5.Salir\nseleccione una opcion: "))
-=======
     opcion = int(input("1.Hacer prestamo\n2.Configurar fecha\n3.Salir\nseleccione una opcion: "))
->>>>>>> main
     if (opcion == 1):
         borrarPantalla()
         prestamo()
     elif (opcion == 2):
         borrarPantalla()
-<<<<<<< HEAD
         menuGanancias()
     elif (opcion == 3):
         borrarPantalla()
@@ -448,11 +444,9 @@ def menuAdmin():
         borrarPantalla()
         menuTiempo()
     elif(opcion == 5):
-=======
         menuTiempo()
     elif(opcion == 3):
         borrarPantalla()
->>>>>>> main
         menuPrincipal()
     else:
         borrarPantalla()
