@@ -272,8 +272,10 @@ def prestamo():
                 print("No se puede prestar esa  cantidad de dinero")
 
 def menuGanancias():
+    sumaTotalTerceros = 0
+    sumaTotalSocios = 0
     fap()
-    global ahorrosTotales, socios, cuotaDelmes, gananciaTotal, cuo, cuoT, proyeccionGanancias, proyeccionSocios, proyeccionTercero, listaT, listaS
+    global ahorrosTotales, socios, gananciaTotal, cuo, cuoT, proyeccionGanancias, proyeccionSocios, proyeccionTercero, listaT, listaS
     tipoGanancia = int(input("Seleccione el tipo de ganancia\n1.Ganancia actual\n2.Proyeccion de la ganancia\n3.Salir\nseleccione una opcion:"))
     if (tipoGanancia == 1):
         print("La ganancia actual es:",gananciaTotal)
@@ -281,36 +283,25 @@ def menuGanancias():
         menuGanancias()
     elif (tipoGanancia == 2):
         for i, value in terceros.items():
-            cuoT = 0
             if type(value[3])==list:
-                prestamoTerceros = value[3][0]
+                prestamoTercero = value[3][0]
                 cuotasTercero = value[3][1]
-                listaT.append(prestamoTerceros)
-                print("LISTAAA TERCERO",listaT)
-                listaTsuma = (sum(listaT))
-                print("LISTA DE TERCEROS",listaTsuma)
-                cuoT += cuotasTercero
-                proyeccionTercero = ((listaTsuma / cuoT) * (cuoT * 0.02) + listaTsuma)
-            print("prestamo tercerooos",prestamoTerceros)
-            print("cuotas tercerooos",cuotasTercero)
+                interesesTercero = (prestamoTercero * 0.02) * cuotasTercero
+                total = int(prestamoTercero + interesesTercero)
+                listaT.append(total)
+                sumaTotalTerceros = (sum(listaT))
         for i, value in socios.items():
-            cuo = 0
-            proyeccionGanancias = 0
             if type(value[3])==list:
                 prestamo = value[3][0]
                 cuotas = value[3][1]
-                listaS.append(prestamo)
-                print("LISTAAA SOCIO",listaS)
-                listaSsuma = (sum(listaS))
-                #print("LISTA DE SOCIOS",listaT)
-                cuo += cuotas
-            #print(prestamo)
-            #print(cuotas)
-                proyeccionSocios = ((listaSsuma / cuo) * (cuo * 0.01) + listaSsuma)
-                proyeccionGanancias = proyeccionTercero + proyeccionSocios
-                print("La proyeccion de las ganancias es",int(proyeccionGanancias))
+                intereses = (prestamo * 0.01) * cuotas
+                total = int(prestamo + intereses)
+                listaS.append(total)
+                sumaTotalSocios = (sum(listaS))
+                proyeccionGanancias = sumaTotalTerceros + sumaTotalSocios
         listaS.clear()
         listaT.clear()
+        print("La proyeccion de las ganancias es $:",proyeccionGanancias)
         menuGanancias()
     elif (tipoGanancia == 3):
         borrarPantalla()
