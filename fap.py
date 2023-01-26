@@ -56,6 +56,15 @@ day = 1
 #En esta variable se alamacena el total de dinero ahorrado en el banco
 ahorrosTotales = 325000
 
+
+cuo = 0
+cuoT = 0
+proyeccionGanancias = 0
+proyeccionTercero = 0
+proyeccionSocios = 0
+listaT = []
+listaS = []
+
 #Las siguientes tres funciones nos permitiran poder actualizar la fecha automaticamente cada dia hace uso de las variables globales day,month,year
 #Esta funcion cambia el año ,se ejecuta cuando la variable month en cambioMes() en el mes 12 haciendo que el mes sea igual a 1, y se pase al año siguiente
 def cambioYear():
@@ -153,11 +162,11 @@ def fijarFecha():
         int(input("ingresa de nuevo un valor valido para el dia\nIngrese el dia: "))
 
 #Esta función se encarga de calcular y mostrar la cuota del préstamo que un usuario debe pagar en un mes determinado
-cuotaDelmes = 0
+
 gananciaTotal = 0
 def cuotasPrestamo(diccionario, usuario):
     fap()
-    global ahorrosTotales, cuotaDelmes, gananciaTotal
+    global ahorrosTotales, gananciaTotal
     fecha = str(year) + "/" + str(month)  #Traemos el año y el mes actual y los almacenamos en la variable fecha
     if (diccionario[usuario][3] == 0):  #Primero, se verifica si el usuario tiene un préstamo asignado.
         borrarPantalla()
@@ -177,7 +186,8 @@ def cuotasPrestamo(diccionario, usuario):
             cuotaPagada = diccionario[usuario][3][4]
             cuotaCapital = int(prestamo / cuotas)
             cuotaDelMes = int((prestamo / cuotas) + ((prestamo / cuotas) * interes))
-            gananciaTotal += cuotaDelmes
+            gananciaTotal += cuotaDelMes
+            print(gananciaTotal)
             print("¿Desea pagar la cuota del mes?. La cuota de este mes es : $", cuotaDelMes)  #Se muestra el monto de la cuota y se le pregunta al usuario si desea pagarla.
             cuotaMes = int(input("1.Si\n2.Salir\nSeleccione una opcion: "))
             if (cuotaMes == 1):  #Si la respuesta es afirmativa
@@ -253,40 +263,23 @@ def prestamo():
             if (cantidadPrestamo <= ahorrosTotales):  #Si la cantidad pedida para el prestamo es menor o igual al total que tiene el fondo
                 terceros[cedula] = [nombre, edad, password,[cantidadPrestamo, cuotas, 0.02,str(year) + "/" + str(month)]]  #Añade este prestamos a la posicion 3 del usario del diccionario tercero
                 ahorrosTotales -= cantidadPrestamo
-                print("PRUEBAA",ahorrosTotales) #borrar despues de prueba
+                borrarPantalla()
                 print("Usted ha hecho un prestamo por: $" + str(cantidadPrestamo))
                 menuAdmin()
                 break
             else:#Sino le dira al admin que no puede prestar ese dinero y le pedira de nuevo el valor del prestamo hasta que este sea   valido
                 borrarPantalla()
                 print("No se puede prestar esa  cantidad de dinero")
-cuo = 0
-cuoT = 0
-proyeccionGanancias = 0
-proyeccionTercero = 0
-proyeccionSocios = 0
-listaT = []
-listaS = []
+
 def menuGanancias():
     fap()
-    global ahorrosTotales
-    global socios
-    global cuotaDelmes
-    global gananciaTotal
-    global cuo
-    global cuoT
-    global proyeccionGanancias
-    global proyeccionSocios
-    global proyeccionTercero
-    global listaT
-    global listaS
-    tipoGanancia = int(
-    input("Seleccione el tipo de ganancia\n1.Ganancia actual\n2.Proyeccion de la ganancia\n3.Salir\nseleccione una opcion:"))
+    global ahorrosTotales, socios, cuotaDelmes, gananciaTotal, cuo, cuoT, proyeccionGanancias, proyeccionSocios, proyeccionTercero, listaT, listaS
+    tipoGanancia = int(input("Seleccione el tipo de ganancia\n1.Ganancia actual\n2.Proyeccion de la ganancia\n3.Salir\nseleccione una opcion:"))
     if (tipoGanancia == 1):
         print("La ganancia actual es:",gananciaTotal)
         print(terceros)
         menuGanancias()
-    if (tipoGanancia == 2):
+    elif (tipoGanancia == 2):
         for i, value in terceros.items():
             cuoT = 0
             if type(value[3])==list:
@@ -315,7 +308,7 @@ def menuGanancias():
             #print(cuotas)
                 proyeccionSocios = ((listaSsuma / cuo) * (cuo * 0.01) + listaSsuma)
                 proyeccionGanancias = proyeccionTercero + proyeccionSocios
-                print("proyeccion es",proyeccionGanancias)
+                print("La proyeccion de las ganancias es",int(proyeccionGanancias))
         listaS.clear()
         listaT.clear()
         menuGanancias()
@@ -390,7 +383,6 @@ def ahorroProgramado(cedula):
             x = str(i.keys())
             x = x[11:-2].replace("'", "")  #Si lo es, se extrae el año y mes del diccionario y se compara con el año y mes pasados como parámetros
             llaves.append(x)
-            
     if ((str(year) + "/" + str(month))in llaves):  #Si coinciden(Si ya tiene un ahorro ese mes), se ejecuta la función menuSocios()
         menuSocios(cedula)
     else:  #De lo contrario(Si ese mes no tiene un ahorro), pide un ahorro (con la función ahorro() con la misma cédula como parámetro.)
@@ -543,6 +535,7 @@ def menuClientes():
         password = str(input("Digite su contraseña: "))
         ahorro = ahorroInicial()  #En esta variable ejecutamos la funcion ahorroInicial para pedir y almacenar en esta misma un ahorro inicial que sea igual o mayor a 25000 en el formato de diccionario definido en la funcion para posteriormente almacenarlo en la posicion 4 del diccionario socios.
         socios[cedula] = [nombre, edad, password, 0, ahorro]  #Almacenamos todos los datos pedidos para hacer el registro dentro del diccionario socios, siguiendo el orden que ya estaba definido.
+        borrarPantalla()
         menuPrincipal()
     elif (opcionClientes == 2):
         fap()
