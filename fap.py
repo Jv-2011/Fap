@@ -17,9 +17,8 @@ import schedule
 def borrarPantalla():
     if (os.name == "posix"):  #si el OS es basado en unix ejecuta "clear"
         os.system("clear")
-    elif (os.name == "ce" or os.name == "nt"
-        or os.name == "dos"):  # sie el OS es windows ejecuta "cls"
-            os.system("cls")
+    elif (os.name == "ce" or os.name == "nt"or os.name == "dos"):  # sie el OS es windows ejecuta "cls"
+        os.system("cls")
 
 #Imprime en pantalla una imagen formada con caracteres del banco
 def fap():
@@ -38,12 +37,12 @@ y el valor de del ahorro(posiciones impares) {'año/mes':['dia hora', ahorro, 'd
 De es esta manera quedara asi un par llave-valor  en el diccionario socios:
 [cedula]: ["Nombre", edad, contraseña, [30000, 5, 0.02, mes/año, 0] ,{'año/mes':['dia hora', ahorro,'dia hora', ahorro]}]'''
 socios = {
-    1: ["Diego", 15, "diego123", 0, {'2022/10': ['01 22:53:14', 25000]}],
-    2: ["Roberto", 15, "roberto123", 0, {'2022/10': ['25 12:56:14', 50000]}],
-    3: ["Daniela", 15, "daniela123", 0, {'2022/10': ['25 12:56:14', 150000]}],
-    4: ["Lina", 15, "lina123", 0, {'2022/10': ['25 12:56:14', 45000]}],
-    5: ["Jaime", 15, "jaime123", 0, {'2022/10': ['25 12:56:14', 25000]}],
-    6: ["Diana", 15, "diana123", 0, {'2022/10': ['25 12:56:14', 30000]}]
+    1: ["Diego", 75, "diego123", 0, {'2022/10': ['01 22:53:14', 25000]}],
+    2: ["Roberto", 45, "roberto123", 0, {'2022/10': ['25 12:56:14', 50000]}],
+    3: ["Daniela", 33, "daniela123", 0, {'2022/10': ['25 12:56:14', 150000]}],
+    4: ["Lina", 28, "lina123", 0, {'2022/10': ['25 12:56:14', 45000]}],
+    5: ["Jaime", 60, "jaime123", 0, {'2022/10': ['25 12:56:14', 25000]}],
+    6: ["Diana", 54, "diana123", 0, {'2022/10': ['25 12:56:14', 30000]}]
 }
 
 terceros = {}
@@ -102,51 +101,24 @@ def horaActual():
         hora = str(day) + " " + str(hora.hour) + ":" + str(hora.minute) + ":" + str(hora.second)  #Se guarda la informacion de del dia hora:minute:segundo en la variable hora
     return (hora)
 
-def imprimirFecha():
-    print(str(day)+"/"+str(month)+"/"+str(year))
 def menuTiempo():
-    borrarPantalla()
-    op=0
-    while op!=6:
-        fap()
-        op = int(input("1.fecha/hora Actual \n2.Cambiar fecha \n3.cambio siguiente dia\n4.cambiar siguiente mes\n5.cambiar siguiente año\n6.Atras \nSeleccione una opcion: "))
-        if op == 1:
-            borrarPantalla()
-            print("fecha y la hora actuales:")
-            imprimirFecha()
-            print(str(horaActual())[2:]+"\n")
-        elif op == 2:
-            borrarPantalla()
-            fijarFecha()
-        elif op == 3:
-            borrarPantalla()
-            print("La fecha y la hora era :")
-            imprimirFecha()
-            print(str(horaActual())[2:]+"\n")
-            cambioDay()
-            print("La fecha y la hora actuales es:")
-            imprimirFecha()
-            print(str(horaActual())[2:]+"\n")
-        elif op == 4:
-            borrarPantalla()
-            print("La fecha y la hora era :")
-            imprimirFecha()
-            print(str(horaActual())[2:]+"\n")
-            cambioMes()
-            print("La fecha y la hora actuales es:")
-            imprimirFecha()
-            print(str(horaActual())[2:]+"\n")
-        elif op == 5:
-            borrarPantalla()
-            print("La fecha y la hora era :")
-            imprimirFecha()
-            print(str(horaActual())[2:]+"\n")
-            cambioYear()
-            print("La fecha y la hora actuales es:")
-            imprimirFecha()
-            print(str(horaActual())[2:]+"\n")
-        elif op == 6:
-            menuPrincipal()
+    fap()
+    op = int(input("1.fecha/hora Actual\n2.cambiar siguiente mes\n3.Atras\nSeleccione una opcion: "))
+    if(op == 1):
+        borrarPantalla()
+        print("La fecha y hora actual es: " + (str(day)+"/"+str(month)+"/"+str(year)))
+        menuTiempo()
+    elif(op == 2):
+        borrarPantalla()
+        cambioMes()
+        menuTiempo()
+    elif(op == 3):
+        borrarPantalla()
+        menuAdmin()
+    else:
+        borrarPantalla()
+        print("Digite una opcion correcta")
+        menuTiempo()
 
 def fijarFecha():
     global year,month,day
@@ -154,10 +126,10 @@ def fijarFecha():
     year=int(input("Ingrese el año: "))
     while year<0:
         year=int(input("ingresa de nuevo un valor valido para el año\nIngrese el año: "))
-    month=int(input("Ingrese el mes: "))
+        month=int(input("Ingrese el mes: "))
     while month>12 or month<1:
         month=int(input("ingresa de nuevo un valor valido para el mes\nIngrese el mes: "))
-    day=int(input("Ingrese el dia: "))
+        day=int(input("Ingrese el dia: "))
     while day>(calendar.monthrange(year,month)[1]) and day<1:
         int(input("ingresa de nuevo un valor valido para el dia\nIngrese el dia: "))
 
@@ -278,8 +250,8 @@ def menuGanancias():
     global ahorrosTotales, socios, gananciaTotal, cuo, cuoT, proyeccionGanancias, proyeccionSocios, proyeccionTercero, listaT, listaS
     tipoGanancia = int(input("Seleccione el tipo de ganancia\n1.Ganancia actual\n2.Proyeccion de la ganancia\n3.Salir\nseleccione una opcion:"))
     if (tipoGanancia == 1):
+        borrarPantalla()
         print("La ganancia actual es:",gananciaTotal)
-        print(terceros)
         menuGanancias()
     elif (tipoGanancia == 2):
         for i, value in terceros.items():
@@ -301,25 +273,29 @@ def menuGanancias():
                 proyeccionGanancias = sumaTotalTerceros + sumaTotalSocios
         listaS.clear()
         listaT.clear()
+        borrarPantalla()
         print("La proyeccion de las ganancias es $:",proyeccionGanancias)
         menuGanancias()
     elif (tipoGanancia == 3):
         borrarPantalla()
         menuAdmin()
+
+
 def consultaAhorros():
     fap()
-    opcion = int(
-        input("1.Consultar ahorro de socio\n2.Consultar ahorro total\n3.Salir\nseleccione una opcion: "))
+    opcion = int(input("1.Consultar ahorro de socio\n2.Consultar ahorro total\n3.Salir\nseleccione una opcion: "))
     if(opcion == 1):
         borrarPantalla()
-        usuario = int(input("Ingrese la cedula del socio:"))
+        usuario = int(input("Ingrese la cedula del socio: "))
+        nombreUsuario = socios[usuario][0]
         total = totalAhorradoSocio(usuario)
-        print("el usuario tiene ahorrado",total)
+        borrarPantalla()
+        print("El usuario", nombreUsuario, "tiene ahorrado: $" + str(total))
         consultaAhorros()
     elif(opcion == 2):
-        print("Los ahorros totales de los socios son:",ahorrosTotales)
-        consultaAhorros()
         borrarPantalla()
+        print("Los ahorros totales de los socios son: $" + str(ahorrosTotales))
+        consultaAhorros()
     elif(opcion == 3):
         borrarPantalla()
         menuAdmin()
@@ -331,7 +307,7 @@ def consultaAhorros():
 def menuAdmin():
     fap()
     opcion = int(
-        input("1.Hacer prestamo\n2.Ganancias\n3.Consultar Ahorros\n4.Configurar fecha\n5.Salir\nseleccione una opcion: "))
+        input("1.Hacer prestamo\n2.Ganancias\n3.Consultar Ahorros\n4.Configurar fecha\n5.Atras\nseleccione una opcion: "))
     if (opcion == 1):
         borrarPantalla()
         prestamo()
@@ -350,6 +326,7 @@ def menuAdmin():
         borrarPantalla()
         print("Digite una opcion correcta")
         menuAdmin()
+
 #Este es el login para los admin
 def loginAdmin():
     fap()
@@ -377,7 +354,6 @@ def ahorroProgramado(cedula):
     if ((str(year) + "/" + str(month))in llaves):  #Si coinciden(Si ya tiene un ahorro ese mes), se ejecuta la función menuSocios()
         menuSocios(cedula)
     else:  #De lo contrario(Si ese mes no tiene un ahorro), pide un ahorro (con la función ahorro() con la misma cédula como parámetro.)
-        print(socios[cedula])
         ahorro(cedula)
 
 #Esta función permite al usuario ahorrar una cantidad determinada de dinero.
@@ -386,9 +362,7 @@ def ahorro(cedula):
     cantidadAhorrar = int(input("Digite una cantidad para ahorrar: "))
     while cantidadAhorrar < 25000:  #Para ello, se verifica que la cantidad ingresada sea mayor o igual a 25000.
         print("ingrese un monto igual o superior a 25000")
-        cantidadAhorrar = int(
-        input("Digite una cantidad para ahorrar: ")
-        )  #Si el usuario ingresa un monto menor, se le solicitará que vuelva a ingresar un monto válido.
+        cantidadAhorrar = int(input("Digite una cantidad para ahorrar: "))  #Si el usuario ingresa un monto menor, se le solicitará que vuelva a ingresar un monto válido.
     for i in socios[cedula]:  #Recorre una lista de socios a partir de su cédula
         if isinstance(i, dict):  #Para cada elemento de la lista, se verifica si es un diccionario (Si el usuario ya ha realizado algún ahorro en el mes actual)
             x = str(i.keys())
@@ -408,7 +382,7 @@ def ahorro(cedula):
 
 def menuPrestamo(cedula, diccionario):
     fap()
-    opcion = int(input("1.Pagar cuota \n2.Ver estado\n3.Salir \nSeleccione una opcion:"))
+    opcion = int(input("1.Pagar cuota \n2.Ver estado\n3.Atras \nSeleccione una opcion:"))
     if(opcion == 1):
         cuotasPrestamo(socios, cedula)
     elif(opcion == 2):
@@ -420,7 +394,7 @@ def menuPrestamo(cedula, diccionario):
             if(cuotas != 0):
                 cuotasPagadass = diccionario[cedula][3][4]
                 print("Tus cuotas restantes son", cuotas)
-                print("Tus cuotas pagadas", cuotasPagadass)
+                print("Tus cuotas pagadas son", cuotasPagadass)
                 menuPrestamo(cedula, diccionario)
             else:
                 print("Ya has acabado de pagar tu prestamo")
@@ -435,17 +409,26 @@ def menuPrestamo(cedula, diccionario):
         elif(diccionario == terceros):
             menuTerceros(cedula)
 
+#Esta funcion me permite cambiar el nombre de un usuario
+def cambiarNombre(diccionario, usuario):
+    nombre = input("Digite el nuevo nombre que desea tener: ")
+    diccionario[usuario][0] = nombre
+    print(diccionario[usuario][0])
+
 #Esta es el menu para los socios que les permite seleccionar una opción del menú para realizar una acción.
 def menuSocios(cedula):
     fap()
     opcionClientes = int(
-        input("1.Ahorrar \n2.Informacion de prestamo\n3.Salir \nSeleccione una opcion: "))
+        input("1.Ahorrar \n2.Informacion de prestamo\n3.Cambiar nombre\n4.Atras\nSeleccione una opcion: "))
     if (opcionClientes == 1):
         ahorro(cedula)
     elif (opcionClientes == 2):
         borrarPantalla()
         menuPrestamo(cedula, socios)
     elif (opcionClientes == 3):
+        cambiarNombre(socios, cedula)
+        menuSocios(cedula)
+    elif (opcionClientes == 4):
         print("\nEl programa ha finalizado\nAdios")
         menuPrincipal()
     else:
@@ -456,10 +439,13 @@ def menuSocios(cedula):
 def menuTerceros(usuario):
     fap()
     opcionTerceros = int(
-        input("1.Informacion de prestamo\n2.Salir\nSeleccione una opcion: "))
+        input("1.Informacion de prestamo\n2.Cambiar nombre\n3.Atras\nSeleccione una opcion: "))
     if (opcionTerceros == 1):
         menuPrestamo(usuario, terceros)
     elif (opcionTerceros == 2):
+        cambiarNombre(terceros, cedula)
+        menuTerceros(usuario)
+    elif (opcionTerceros == 3):
         print("\nEl programa ha finalizado\nAdios")
         menuPrincipal()
     else:
@@ -493,6 +479,7 @@ def loginTerceros():
             menuTerceros(usuario)
             break
         else:
+            menuClientes()
             print("Su usuario o su contraseña son incorrectas, digite nuevamente.")
 
 '''Esta función permite al usuario ingresar un valor de ahorro inicial al registrarse, el cual debe ser igual o superior a 25000. Si el valor ingresado es menor, se le solicitará al usuario que ingrese un nuevo valor.
@@ -504,9 +491,7 @@ def ahorroInicial():
     while ahorro < 25000:
         print("ingrese un monto igual o superior a 25000")
         ahorro = int(input("Ingrese el valor del ahorro: "))
-    ahorros = {
-        str(year) + "/" + str(month): [horaActual(), ahorro]
-    }  #Es un diccionario que almacena los ahorros de un usuario. El diccionario contiene como clave una cadena de texto formada por el año y el mes actuales, y como valor una lista con dos elementos: la hora actual y el ahorro del usuario.
+    ahorros = {str(year) + "/" + str(month): [horaActual(), ahorro]}  #Es un diccionario que almacena los ahorros de un usuario. El diccionario contiene como clave una cadena de texto formada por el año y el mes actuales, y como valor una lista con dos elementos: la hora actual y el ahorro del usuario.
     ahorrosTotales += ahorro
     return ahorros
 
@@ -515,9 +500,8 @@ La segunda opción es "Iniciar Sesión", que al seleccionarla mostrará un menú
 La tercera opción es "Salir", que al seleccionarla regresará al menú principal.'''
 def menuClientes():
     fap()
-    opcionClientes = int(input("1.Registrarme \n2.Iniciar Sesion \n3.Salir \nSeleccione una opcion:"))
-    borrarPantalla(
-    )  #Llamamos la funcion para borrar pantalla de consola cada vez que pasemos de  pagina.
+    opcionClientes = int(input("1.Registrarme \n2.Iniciar Sesion \n3.Atras \nSeleccione una opcion:"))
+    borrarPantalla()  #Llamamos la funcion para borrar pantalla de consola cada vez que pasemos de  pagina.
     if (opcionClientes == 1):
         fap()
         cedula = str(input("Digite su cedula: "))
