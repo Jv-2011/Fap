@@ -61,6 +61,8 @@ cuoT = 0
 proyeccionGanancias = 0
 proyeccionTercero = 0
 proyeccionSocios = 0
+sumaTotalTerceros = 0
+sumaTotalSocios = 0
 listaT = []
 listaS = []
 
@@ -243,64 +245,63 @@ def prestamo():
                 borrarPantalla()
                 print("No se puede prestar esa  cantidad de dinero")
 
+#Esta funcion permite al administrador poder ver las ganancias actuales y tambien la proyeccion de las ganancias (cuotas que deben pagar) tanto de los socios como los terceros
 def menuGanancias():
-    sumaTotalTerceros = 0
-    sumaTotalSocios = 0
     fap()
-    global ahorrosTotales, socios, gananciaTotal, cuo, cuoT, proyeccionGanancias, proyeccionSocios, proyeccionTercero, listaT, listaS
-    tipoGanancia = int(input("Seleccione el tipo de ganancia\n1.Ganancia actual\n2.Proyeccion de la ganancia\n3.Salir\nseleccione una opcion:"))
-    if (tipoGanancia == 1):
+    global ahorrosTotales, socios, gananciaTotal, proyeccionGanancias, listaT, listaS, sumaTotalTerceros,sumaTotalSocios #Llamamos las variables que definimos globalmente para usarla dentro de la funcion
+    tipoGanancia = int(input("Seleccione el tipo de ganancia\n1.Ganancia actual\n2.Proyeccion de la ganancia\n3.Salir\nseleccione una opcion:")) #Se le pregunta al administrador que tipo de ganancia desea ver 
+    if (tipoGanancia == 1):  # Si quiere ver la ganancia actual
         borrarPantalla()
-        print("La ganancia actual es:",gananciaTotal)
+        print("La ganancia actual es:",gananciaTotal) #Con esta información se muestra el total de la ganancia que se va guardando de la cuota que va pagando el usuario al mes
         menuGanancias()
-    elif (tipoGanancia == 2):
-        for i, value in terceros.items():
-            if type(value[3])==list:
-                prestamoTercero = value[3][0]
-                cuotasTercero = value[3][1]
-                interesesTercero = (prestamoTercero * 0.02) * cuotasTercero
-                total = int(prestamoTercero + interesesTercero)
-                listaT.append(total)
-                sumaTotalTerceros = (sum(listaT))
-        for i, value in socios.items():
-            if type(value[3])==list:
-                prestamo = value[3][0]
-                cuotas = value[3][1]
-                intereses = (prestamo * 0.01) * cuotas
-                total = int(prestamo + intereses)
-                listaS.append(total)
-                sumaTotalSocios = (sum(listaS))
-                proyeccionGanancias = sumaTotalTerceros + sumaTotalSocios
-        listaS.clear()
-        listaT.clear()
+    elif (tipoGanancia == 2):  # Si quiere ver la proyeccion de la ganancia
+        for i, value in terceros.items(): # Recorremos el diccionario terceros para obtener el identificador (ID)
+            if type(value[3])==list: # Esta condicion permite comparar si la posicion en la que está es una lista y asi poder recorrer esa lista dentro del diccionario terceros
+                prestamoTercero = value[3][0] # Trae la cantidad del prestamo
+                cuotasTercero = value[3][1] # Trae el numero de cuotas del prestamo
+                interesesTercero = (prestamoTercero * 0.02) * cuotasTercero # Se calcula los intereses del prestamo por la cantidad de cuotas
+                total = int(prestamoTercero + interesesTercero) # Se suman los intereses junto al prestamo inicial
+                listaT.append(total) # Se agrega ese prestamo junto con sus intereses en la lista
+            sumaTotalTerceros = (sum(listaT)) # Se suma todos los prestamos que hayan en la lista 
+        for i, value in socios.items(): # Recorremos el diccionario socios para obtener el identificador (ID)
+            if type(value[3])==list: # Esta condicion permite comparar si la posicion en la que está es una lista y asi poder recorrer esa lista dentro del diccionario socios
+                prestamo = value[3][0] # Trae la cantidad del prestamo
+                cuotas = value[3][1] # Trae el numero de cuotas del prestamo
+                intereses = (prestamo * 0.01) * cuotas # Se calcula los intereses del prestamo por la cantidad de cuotas
+                total = int(prestamo + intereses)  # Se suman los intereses junto al prestamo inicial
+                listaS.append(total) # Se agrega ese prestamo junto con sus intereses en la lista
+            sumaTotalSocios = (sum(listaS)) # Se suma todos los prestamos que hayan en la lista 
+            proyeccionGanancias = sumaTotalTerceros + sumaTotalSocios # Se suman todos los prestamos de terceros y socios para mostrar la proyeccion de las ganancias
+        listaS.clear() # Limpia la lista cada que termina la condicion
+        listaT.clear() # Limpia la lista cada que termina la condicion
         borrarPantalla()
-        print("La proyeccion de las ganancias es $:",proyeccionGanancias)
+        print("La proyeccion de las ganancias es $:",proyeccionGanancias) # Muestra la proyeccion de las ganancias
         menuGanancias()
-    elif (tipoGanancia == 3):
+    elif (tipoGanancia == 3): # Si quiere volver al menu del administrador
         borrarPantalla()
         menuAdmin()
 
-
+#Esta funcion permite al administrador poder ver los ahorros que tiene cada socio  y los ahorros totales de todos los socios
 def consultaAhorros():
     fap()
-    opcion = int(input("1.Consultar ahorro de socio\n2.Consultar ahorro total\n3.Salir\nseleccione una opcion: "))
-    if(opcion == 1):
+    opcion = int(input("1.Consultar ahorro de socio\n2.Consultar ahorro total\n3.Salir\nseleccione una opcion: ")) #Se le pregunta al administrador que tipo de ahorro desea ver 
+    if(opcion == 1): # Si quiere ver el monto ahorrado de un socio en especifico
         borrarPantalla()
-        usuario = int(input("Ingrese la cedula del socio: "))
-        nombreUsuario = socios[usuario][0]
-        total = totalAhorradoSocio(usuario)
+        usuario = int(input("Ingrese la cedula del socio: ")) #Se le pregunta la cédula
+        nombreUsuario = socios[usuario][0] # Busca en el diccionario de socios el nommbre mediante la cedula ingresada y se guarda en la variable
+        total = totalAhorradoSocio(usuario) # Trae el ahorro del socio mediante la funcion y pasandole como parametro su cedula
         borrarPantalla()
-        print("El usuario", nombreUsuario, "tiene ahorrado: $" + str(total))
+        print("El usuario", nombreUsuario, "tiene ahorrado: $" + str(total)) # Se muestra el nombre del socio y el monto total que tiene ahorrado
+        consultaAhorros() # Se devuelve al menu de los ahorros
+    elif(opcion == 2): # Si quiere ver el monto total ahorrado de todos los socios
+        borrarPantalla()
+        print("Los ahorros totales de los socios son: $" + str(ahorrosTotales)) # Se muestra el monto total de todos los socios
         consultaAhorros()
-    elif(opcion == 2):
-        borrarPantalla()
-        print("Los ahorros totales de los socios son: $" + str(ahorrosTotales))
-        consultaAhorros()
-    elif(opcion == 3):
+    elif(opcion == 3): # Si quiere volver al menu del administrador
         borrarPantalla()
         menuAdmin()
     else:
-        print("Ingrese una opcion correcta")
+        print("Ingrese una opcion correcta") # Se muestra un mensaje cuando no ingresa una opcion correcta
         consultaAhorros()
 
 #Menu del administrador
