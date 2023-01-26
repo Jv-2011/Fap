@@ -1,29 +1,36 @@
 #Con esta libreria contiene una funcion que permite saber la cantidad de dias que tiene un mes dependiendo del año "monthrange(year,month)"
 import calendar
+
 #esta libreria contiene funciones para saber la fecha y hora actual "datetime.now()"
 from datetime import datetime
+
 #El modulo schedule sirve para programar trabajos cada cierto tiempo
 import schedule
+
 #Esta libreria permite utilizar alguna funciones del sistema operativo
 import os
+
 #Bajamos la libreria de schedule para programar ciertas acciones cada cierto tiempo
 import schedule
+
 #Funcion que identifica el sistema operativo y limpia la consola cada vez que se ejecuta
 def borrarPantalla():
-  if (os.name == "posix"):  #si el OS es basado en unix ejecuta "clear"
-    os.system("clear")
-  elif (os.name == "ce" or os.name == "nt"
+    if (os.name == "posix"):  #si el OS es basado en unix ejecuta "clear"
+        os.system("clear")
+    elif (os.name == "ce" or os.name == "nt"
         or os.name == "dos"):  # sie el OS es windows ejecuta "cls"
-    os.system("cls")
+            os.system("cls")
+
 #Imprime en pantalla una imagen formada con caracteres del banco
 def fap():
-  print("    ███████╗░█████╗░██████╗░")
-  print("    ██╔════╝██╔══██╗██╔══██╗")
-  print("    █████╗░░███████║██████╔╝")
-  print("    ██╔══╝░░██╔══██║██╔═══╝░")
-  print("    ██║░░░░░██║░░██║██║░░░░░")
-  print("    ╚═╝░░░░░╚═╝░░╚═╝╚═╝░░░░░\n")
-  print("  Fondo de Ahorros y Prestamos\n")
+    print("    ███████╗░█████╗░██████╗░")
+    print("    ██╔════╝██╔══██╗██╔══██╗")
+    print("    █████╗░░███████║██████╔╝")
+    print("    ██╔══╝░░██╔══██║██╔═══╝░")
+    print("    ██║░░░░░██║░░██║██║░░░░░")
+    print("    ╚═╝░░░░░╚═╝░░╚═╝╚═╝░░░░░\n")
+    print("  Fondo de Ahorros y Prestamos\n")
+
 '''Este diccionario cumple la funcion de base de datos, donde vamos a almacenar cada cliente y sus datos correspondientes en un diccionario en el siguiente formato llave = cedula  valor = arreglo con datos [cedula]: [Nombre, edad, contraseña,prestamos, ahorro1,ahorro2,ahorro3...].
 Los ahorros se guardan apartir de la cuarta posicion en un diccionario en donde la llave es
 el mes y el año actual (año/mes) y su valor es un arreglo en donde se almacena el dia y la hora del ahorro (posiciones pares)
@@ -38,18 +45,23 @@ socios = {
     5: ["Jaime", 15, "jaime123", 0, {'2022/10': ['25 12:56:14', 25000]}],
     6: ["Diana", 15, "diana123", 0, {'2022/10': ['25 12:56:14', 30000]}]
 }
+
 terceros = {}
+
 #Definimos la fecha actual con variables globales para que puedan ser utilizadas en todo el codigo
 year = 2022
 month = 10
 day = 1
+
 #En esta variable se alamacena el total de dinero ahorrado en el banco
 ahorrosTotales = 325000
+
 #Las siguientes tres funciones nos permitiran poder actualizar la fecha automaticamente cada dia hace uso de las variables globales day,month,year
 #Esta funcion cambia el año ,se ejecuta cuando la variable month en cambioMes() en el mes 12 haciendo que el mes sea igual a 1, y se pase al año siguiente
 def cambioYear():
     global year
     year += 1
+
 #Funcion para actualizar el mes
 def cambioMes():
     global month
@@ -58,32 +70,29 @@ def cambioMes():
         cambioYear()
     else:
         month += 1
+
 #Esta funcion nos indica si es el ultimo dia del mes dependiendo del año,en caso de ser asi el dia sera cambiado a 1 y se pasara al siguiente mes
 def cambioDay():
-  global day, month, year
-  if (day == (calendar.monthrange(year, month)[1])):
-    day = 1
-    cambioMes()
-  else:
-    day += 1
+    global day, month, year
+    if (day == (calendar.monthrange(year, month)[1])):
+        day = 1
+        cambioMes()
+    else:
+        day += 1
+
 #Esta linea de codigo ejecuta cambioDay() cada dia por medio de la libreria schedule para que actualice el dia en la fecha.
 schedule.every().day.do(cambioDay)
+
 #Esta función se encarga de obtener la hora actual y devolverla en un formato específico.
 def horaActual():
-  global day  #Llamamos la variable global day para obtener el dia del mes.
-  hora = datetime.now(
-  )  #Se obtiene la hora, minuto y segundo con la función datetime.now() de la librería datetime.
-  if (day < 10):  #Si el dia es menor al dia 10 del mes
-    hora = "0" + str(day) + " " + str(hora.hour) + ":" + str(
-      hora.minute
-    ) + ":" + str(
-      hora.second
-    )  #Se añade un 0 al dia y se guarda la informacion de del dia hora:minute:segundo en la variable hora
-  else:  #Si el dia es mayor al dia 10 del mes
-    hora = str(day) + " " + str(hora.hour) + ":" + str(hora.minute) + ":" + str(
-      hora.second
-    )  #Se guarda la informacion de del dia hora:minute:segundo en la variable hora
-  return (hora)
+    global day  #Llamamos la variable global day para obtener el dia del mes.
+    hora = datetime.now()  #Se obtiene la hora, minuto y segundo con la función datetime.now() de la librería datetime.
+    if (day < 10):  #Si el dia es menor al dia 10 del mes
+        hora = "0" + str(day) + " " + str(hora.hour) + ":" + str(hora.minute) + ":" + str(hora.second)  #Se añade un 0 al dia y se guarda la informacion de del dia hora:minute:segundo en la variable hora
+    else:  #Si el dia es mayor al dia 10 del mes
+        hora = str(day) + " " + str(hora.hour) + ":" + str(hora.minute) + ":" + str(hora.second)  #Se guarda la informacion de del dia hora:minute:segundo en la variable hora
+    return (hora)
+
 def imprimirFecha():
     print(str(day)+"/"+str(month)+"/"+str(year))
 def menuTiempo():
@@ -129,6 +138,7 @@ def menuTiempo():
             print(str(horaActual())[2:]+"\n")
         elif op == 6:
             menuPrincipal()
+
 def fijarFecha():
     global year,month,day
     fap()
@@ -141,6 +151,7 @@ def fijarFecha():
     day=int(input("Ingrese el dia: "))
     while day>(calendar.monthrange(year,month)[1]) and day<1:
         int(input("ingresa de nuevo un valor valido para el dia\nIngrese el dia: "))
+
 #Esta función se encarga de calcular y mostrar la cuota del préstamo que un usuario debe pagar en un mes determinado
 cuotaDelmes = 0
 gananciaTotal = 0
@@ -288,7 +299,7 @@ def menuGanancias():
                 cuoT += cuotasTercero
                 proyeccionTercero = ((listaTsuma / cuoT) * (cuoT * 0.02) + listaTsuma)
             print("prestamo tercerooos",prestamoTerceros)
-            print("cuotas tercerooos",cuotasTercero)   
+            print("cuotas tercerooos",cuotasTercero)
         for i, value in socios.items():
             cuo = 0
             proyeccionGanancias = 0
@@ -310,7 +321,7 @@ def menuGanancias():
         menuGanancias()
     elif (tipoGanancia == 3):
         borrarPantalla()
-        menuAdmin() 
+        menuAdmin()
 def consultaAhorros():
     fap()
     opcion = int(
@@ -331,11 +342,7 @@ def consultaAhorros():
     else:
         print("Ingrese una opcion correcta")
         consultaAhorros()
-""" else:   
-        borrarPantalla()
-        print("no hay datos")
-        menuGanancias()
-"""
+
 #Menu del administrador
 def menuAdmin():
     fap()
@@ -373,6 +380,7 @@ def loginAdmin():
         borrarPantalla()
         print("Su usuario o su contraseña son incorrectas, digite nuevamente")
         loginAdmin()
+
 '''Esta funcion verifica con la cedula si el cliente tiene un diccionario con ahorros del mes en curso,de ser asi se ejecuta el menu de socios,en caso contrario de que no tenga un diccionario (ahorro ese mes) se le pedira obligatoriamente un ahorro por lo cual se mandara a la funcion "ahorro()"'''
 def ahorroProgramado(cedula):
     global year, month  #Llamamos la variables que definimos globalmente para usarlas dentro de la funcion
@@ -405,8 +413,7 @@ def ahorro(cedula):
                 i[x].append(cantidadAhorrar)
             ahorrosTotales += cantidadAhorrar
         else:  #Si no es así, se creará un nuevo diccionario con la fecha actual, hora actual y la cantidad ahorrada.
-            socios[cedula].append(
-            {str(year) + "/" + str(month): [horaActual(), cantidadAhorrar]})
+            socios[cedula].append({str(year) + "/" + str(month): [horaActual(), cantidadAhorrar]})
             ahorrosTotales += cantidadAhorrar
             break
     borrarPantalla()
@@ -414,6 +421,7 @@ def ahorro(cedula):
     menuSocios(cedula)
 
 def menuPrestamo(cedula, diccionario):
+    fap()
     opcion = int(input("1.Pagar cuota \n2.Ver estado\n3.Salir \nSeleccione una opcion:"))
     if(opcion == 1):
         cuotasPrestamo(socios, cedula)
@@ -457,6 +465,7 @@ def menuSocios(cedula):
     else:
         print("Seleccione una opcion correcta")
         menuSocios(cedula)
+
 #Este es el menu para terceros,  estos debieron haber sidos registrados por el admin cuando este les hizo el prestamo
 def menuTerceros(usuario):
     fap()
@@ -470,6 +479,7 @@ def menuTerceros(usuario):
     else:
         print("Digite una opcion correcta")
         menuTerceros(usuario)
+
 #Esta funcion permite al usuario hacer login en la aplicacion y asi poder acceder a las diferentes opciones de su cuenta
 def login():
     fap()
@@ -485,6 +495,7 @@ def login():
         borrarPantalla()
         print("Su usuario o su contraseña son incorrectas, digite nuevamente.")
         login()
+
 #Esta función realiza el proceso de inicio de sesión para un tercero. Solicita al usuario que ingrese su número de cédula como usuario y su contraseña. Luego, comprueba si la contraseña ingresada por el usuario coincide con la contraseña almacenada en un diccionario llamado "terceros" para el usuario específico. Si las contraseñas coinciden, se imprime un mensaje de bienvenida y se ejecuta la función menuTerceros() pasando el número de cédula del usuario como parámetro. Si las contraseñas no coinciden, se imprime un mensaje solicitando al usuario que vuelva a ingresar sus credenciales. El ciclo while permite que esta comprobación se repita hasta que el usuario ingrese correctamente sus credenciales.
 def loginTerceros():
     fap()
@@ -497,6 +508,7 @@ def loginTerceros():
             break
         else:
             print("Su usuario o su contraseña son incorrectas, digite nuevamente.")
+
 '''Esta función permite al usuario ingresar un valor de ahorro inicial al registrarse, el cual debe ser igual o superior a 25000. Si el valor ingresado es menor, se le solicitará al usuario que ingrese un nuevo valor.
 Una vez que el usuario ha ingresado un valor válido, se guardará en la variable "ahorros" como un diccionario con la fecha (año/mes) y la hora actual como clave y el valor del ahorro como valor.
 También se sumará el valor del ahorro a la variable "ahorrosTotales". Finalmente, se devolverá el diccionario "ahorros". '''
@@ -511,6 +523,7 @@ def ahorroInicial():
     }  #Es un diccionario que almacena los ahorros de un usuario. El diccionario contiene como clave una cadena de texto formada por el año y el mes actuales, y como valor una lista con dos elementos: la hora actual y el ahorro del usuario.
     ahorrosTotales += ahorro
     return ahorros
+
 '''Esta función muestra un menú con 3 opciones para los clientes. La primera opción es "Registrarme", que al seleccionarla, se le pedirán al usuario los datos de su cédula, nombre, edad y contraseña. Estos datos serán guardados en un diccionario llamado "socios" en el orden [nombre, edad, contraseña, ahorro]. Además se llama a la función "ahorroInicial()" para pedir y almacenar un ahorro inicial igual o mayor a 25000.
 La segunda opción es "Iniciar Sesión", que al seleccionarla mostrará un menú con 2 opciones: Socio o Tercero. Si elige Socio se llamará a la función "login()" y si elige Tercero se llamará a la función "loginTerceros()".
 La tercera opción es "Salir", que al seleccionarla regresará al menú principal.'''
@@ -548,6 +561,7 @@ def menuClientes():
     else:
         print("Digite una opcion correcta")
         menuClientes()
+
 #Funcion que ejecuta el menu principal de la aplicacion de acuerdo al rol que se quiera ingresar
 def menuPrincipal():
     fap()
@@ -563,6 +577,6 @@ def menuPrincipal():
     else:
         print("Digite una opcion correcta 6")
         menuPrincipal()
-        
+
 borrarPantalla()
 menuPrincipal()
