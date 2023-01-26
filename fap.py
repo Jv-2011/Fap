@@ -10,9 +10,6 @@ import schedule
 #Esta libreria permite utilizar alguna funciones del sistema operativo
 import os
 
-#Bajamos la libreria de schedule para programar ciertas acciones cada cierto tiempo
-import schedule
-
 #Funcion que identifica el sistema operativo y limpia la consola cada vez que se ejecuta
 def borrarPantalla():
     if (os.name == "posix"):  #si el OS es basado en unix ejecuta "clear"
@@ -122,21 +119,7 @@ def menuTiempo():
         print("Digite una opcion correcta")
         menuTiempo()
 
-def fijarFecha():
-    global year,month,day
-    fap()
-    year=int(input("Ingrese el año: "))
-    while year<0:
-        year=int(input("ingresa de nuevo un valor valido para el año\nIngrese el año: "))
-        month=int(input("Ingrese el mes: "))
-    while month>12 or month<1:
-        month=int(input("ingresa de nuevo un valor valido para el mes\nIngrese el mes: "))
-        day=int(input("Ingrese el dia: "))
-    while day>(calendar.monthrange(year,month)[1]) and day<1:
-        int(input("ingresa de nuevo un valor valido para el dia\nIngrese el dia: "))
-
 #Esta función se encarga de calcular y mostrar la cuota del préstamo que un usuario debe pagar en un mes determinado
-
 gananciaTotal = 0
 def cuotasPrestamo(diccionario, usuario):
     fap()
@@ -157,11 +140,9 @@ def cuotasPrestamo(diccionario, usuario):
             prestamo = diccionario[usuario][3][0]  #Trae la cantidad del prestamo
             interes = diccionario[usuario][3][2] #Trae el interes que tiene que ser aplicado a cada cuota
             cuotas = diccionario[usuario][3][1]  #Trae el numero de cuotas del prestamo
-            cuotaPagada = diccionario[usuario][3][4]
             cuotaCapital = int(prestamo / cuotas)
             cuotaDelMes = int((prestamo / cuotas) + ((prestamo / cuotas) * interes))
             gananciaTotal += cuotaDelMes
-            print(gananciaTotal)
             print("¿Desea pagar la cuota del mes?. La cuota de este mes es : $", cuotaDelMes)  #Se muestra el monto de la cuota y se le pregunta al usuario si desea pagarla.
             cuotaMes = int(input("1.Si\n2.Salir\nSeleccione una opcion: "))
             if (cuotaMes == 1):  #Si la respuesta es afirmativa
@@ -170,8 +151,6 @@ def cuotasPrestamo(diccionario, usuario):
                 ahorrosTotales += int(cuotaDelMes)  #Se actualizan los ahorros totales del fondo sumando el monto de la cuota
                 diccionario[usuario][3][0] -= cuotaCapital  #El préstamo disminuye con el valor de la cuota
                 diccionario[usuario][3][1] -= 1
-                print(diccionario[usuario][3])
-                print(ahorrosTotales)
                 if(diccionario == socios):
                     menuSocios(usuario)
                 elif(diccionario == terceros):
@@ -262,7 +241,7 @@ def menuGanancias():
                 interesesTercero = (prestamoTercero * 0.02) * cuotasTercero # Se calcula los intereses del prestamo por la cantidad de cuotas
                 total = int(prestamoTercero + interesesTercero) # Se suman los intereses junto al prestamo inicial
                 listaT.append(total) # Se agrega ese prestamo junto con sus intereses en la lista
-            sumaTotalTerceros = (sum(listaT)) # Se suma todos los prestamos que hayan en la lista 
+            sumaTotalTerceros = (sum(listaT)) # Se suma todos los prestamos que hayan en la lista
         for i, value in socios.items(): # Recorremos el diccionario socios para obtener el identificador (ID)
             if type(value[3])==list: # Esta condicion permite comparar si la posicion en la que está es una lista y asi poder recorrer esa lista dentro del diccionario socios
                 prestamo = value[3][0] # Trae la cantidad del prestamo
@@ -270,7 +249,7 @@ def menuGanancias():
                 intereses = (prestamo * 0.01) * cuotas # Se calcula los intereses del prestamo por la cantidad de cuotas
                 total = int(prestamo + intereses)  # Se suman los intereses junto al prestamo inicial
                 listaS.append(total) # Se agrega ese prestamo junto con sus intereses en la lista
-            sumaTotalSocios = (sum(listaS)) # Se suma todos los prestamos que hayan en la lista 
+            sumaTotalSocios = (sum(listaS)) # Se suma todos los prestamos que hayan en la lista
             proyeccionGanancias = sumaTotalTerceros + sumaTotalSocios # Se suman todos los prestamos de terceros y socios para mostrar la proyeccion de las ganancias
         listaS.clear() # Limpia la lista cada que termina la condicion
         listaT.clear() # Limpia la lista cada que termina la condicion
@@ -419,8 +398,7 @@ def cambiarNombre(diccionario, usuario):
 #Esta es el menu para los socios que les permite seleccionar una opción del menú para realizar una acción.
 def menuSocios(cedula):
     fap()
-    opcionClientes = int(
-        input("1.Ahorrar \n2.Informacion de prestamo\n3.Cambiar nombre\n4.Atras\nSeleccione una opcion: "))
+    opcionClientes = int(input("1.Ahorrar \n2.Informacion de prestamo\n3.Cambiar nombre\n4.Atras\nSeleccione una opcion: "))
     if (opcionClientes == 1):
         ahorro(cedula)
     elif (opcionClientes == 2):
@@ -439,8 +417,7 @@ def menuSocios(cedula):
 #Este es el menu para terceros,  estos debieron haber sidos registrados por el admin cuando este les hizo el prestamo
 def menuTerceros(usuario):
     fap()
-    opcionTerceros = int(
-        input("1.Informacion de prestamo\n2.Cambiar nombre\n3.Atras\nSeleccione una opcion: "))
+    opcionTerceros = int(input("1.Informacion de prestamo\n2.Cambiar nombre\n3.Atras\nSeleccione una opcion: "))
     if (opcionTerceros == 1):
         menuPrestamo(usuario, terceros)
     elif (opcionTerceros == 2):
