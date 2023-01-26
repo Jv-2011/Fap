@@ -52,16 +52,12 @@ day = 1
 #En esta variable se alamacena el total de dinero ahorrado en el banco
 ahorrosTotales = 325000
 
-
-cuo = 0
-cuoT = 0
-proyeccionGanancias = 0
-proyeccionTercero = 0
-proyeccionSocios = 0
-sumaTotalTerceros = 0
-sumaTotalSocios = 0
-listaT = []
-listaS = []
+listaT = [] # Esta lista va almacenando los prestamos de los terceros junto con sus intereses
+listaS = [] # Esta lista va almacenando los prestamos de los socios junto con sus intereses
+sumaTotalTerceros = 0 # Esta variable suma el total de los prestamos con los intereses de los terceros
+sumaTotalSocios = 0 # Esta variable suma el total de los prestamos con los intereses de los socios
+proyeccionGanancias = 0 # Esta variable guarda el monto total de las sumas de los prestamos tanto de socios como de terceros
+gananciaTotal = 0 # Esta variable almacena las cuotas que se van pagando tanto de socios como de terceros
 
 #Las siguientes tres funciones nos permitiran poder actualizar la fecha automaticamente cada dia hace uso de las variables globales day,month,year
 #Esta funcion cambia el año ,se ejecuta cuando la variable month en cambioMes() en el mes 12 haciendo que el mes sea igual a 1, y se pase al año siguiente
@@ -120,7 +116,6 @@ def menuTiempo():
         menuTiempo()
 
 #Esta función se encarga de calcular y mostrar la cuota del préstamo que un usuario debe pagar en un mes determinado
-gananciaTotal = 0
 def cuotasPrestamo(diccionario, usuario):
     fap()
     global ahorrosTotales, gananciaTotal
@@ -227,7 +222,7 @@ def prestamo():
 #Esta funcion permite al administrador poder ver las ganancias actuales y tambien la proyeccion de las ganancias (cuotas que deben pagar) tanto de los socios como los terceros
 def menuGanancias():
     fap()
-    global ahorrosTotales, socios, gananciaTotal, proyeccionGanancias, listaT, listaS, sumaTotalTerceros,sumaTotalSocios #Llamamos las variables que definimos globalmente para usarla dentro de la funcion
+    global ahorrosTotales, gananciaTotal, proyeccionGanancias, listaT, listaS, sumaTotalTerceros,sumaTotalSocios #Llamamos las variables que definimos globalmente para usarla dentro de la funcion
     tipoGanancia = int(input("Seleccione el tipo de ganancia\n1.Ganancia actual\n2.Proyeccion de la ganancia\n3.Salir\nseleccione una opcion:")) #Se le pregunta al administrador que tipo de ganancia desea ver 
     if (tipoGanancia == 1):  # Si quiere ver la ganancia actual
         borrarPantalla()
